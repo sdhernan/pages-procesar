@@ -22,23 +22,23 @@
   html { scroll-behavior: smooth; }
 </style>
 </head>
-<body class="font-sans antialiased bg-slate-50 text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100 transition-colors duration-300">
+<body class="font-sans antialiased bg-white text-[#1f2328] dark:bg-[#0d1117] dark:text-[#f0f6fc] transition-colors duration-300">
 
 <!-- ====== TOP BAR ====== -->
-<header class="sticky top-0 z-50 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0f]/80 backdrop-blur">
+<header class="sticky top-0 z-50 border-b border-[#d0d7de] dark:border-[#30363d] bg-white/80 dark:bg-[#0d1117]/80 backdrop-blur">
   <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
     <div class="flex items-center gap-3">
       <span class="text-sm font-bold tracking-wide">Resultados</span>
-      <span class="hidden sm:inline text-xs font-mono text-slate-500 dark:text-slate-400">Query 01 · Certificación Matrimonio (S18) · 159 registros</span>
+      <span class="hidden sm:inline text-xs font-mono text-[#59636e] dark:text-[#8b949e]">Query 01 · Certificación Matrimonio (S18) · 159 registros</span>
     </div>
     <div class="flex items-center gap-2">
-      <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-white/15 text-slate-600 dark:text-slate-300">
-        ✓ Validado <span class="px-1.5 rounded bg-slate-200 dark:bg-white/10">0 diferencias</span>
+      <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded-md border border-[#d0d7de] dark:border-[#30363d] text-[#59636e] dark:text-[#8b949e]">
+        ✓ Validado <span class="px-1.5 rounded bg-[#eaeef2] dark:bg-white/10">0 diferencias</span>
       </span>
       <button id="themeToggle" aria-label="Cambiar tema"
         class="inline-flex items-center gap-2 text-xs font-mono font-semibold px-3 py-1.5 rounded-md border transition-colors
-               border-lime-500/60 bg-lime-300 text-slate-900 hover:bg-lime-200
-               dark:bg-lime-300 dark:text-slate-900 dark:hover:bg-lime-200 cursor-pointer">
+               border-[#d0d7de] bg-[#1f2328] text-white hover:bg-[#2d333b]
+               dark:bg-[#f0f6fc] dark:text-[#0d1117] dark:hover:bg-white cursor-pointer">
         <span id="themeIcon">🌙</span><span id="themeLabel">Oscuro</span>
       </button>
     </div>
@@ -51,10 +51,10 @@
   <section class="grid md:grid-cols-2 gap-5">
 
     <!-- Card: BEFORE / baseline (blue accent) -->
-    <article class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111116] overflow-hidden shadow-sm">
+    <article class="rounded-xl border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] overflow-hidden shadow-sm">
       <div class="px-4 pt-4 flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_8px_2px_rgba(14,165,233,.5)]"></span>
-        <span class="w-6 h-6 grid place-items-center rounded bg-slate-900 dark:bg-white/10 text-white font-black text-xs">Q</span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#8b949e]"></span>
+        <span class="w-6 h-6 grid place-items-center rounded bg-[#1f2328] dark:bg-white/10 text-white font-black text-xs">Q</span>
         <h2 class="font-bold text-sm">Consulta original</h2>
       </div>
       <!-- Metric badges -->
@@ -65,28 +65,28 @@
         <span class="badge">🆔 plan <b class="font-mono">1364285783</b></span>
       </div>
       <!-- Hero panel (purple gradient with big numbers + quote) -->
-      <div class="m-4 rounded-lg p-5 text-white bg-gradient-to-br from-indigo-950 via-indigo-800 to-violet-700">
-        <div class="flex items-center gap-2 text-indigo-200 text-xs font-semibold">
+      <div class="m-4 rounded-lg p-5 text-white bg-gradient-to-br from-[#1f2328] via-[#2d333b] to-[#444c56]">
+        <div class="flex items-center gap-2 text-[#adbac7] text-xs font-semibold">
           <span class="w-7 h-7 grid place-items-center rounded-lg bg-white/15">🐢</span>
           CONSULTA ORIGINAL · TRABAJO REPETIDO
         </div>
         <h3 class="mt-3 text-2xl font-extrabold leading-snug">Pregunta lo mismo 4 veces por cada trámite</h3>
-        <p class="mt-2 text-sm text-indigo-100/90">Para cada trámite de matrimonio, la consulta busca el «folio padre» con 4 subconsultas idénticas y además relee completa la tabla de notificaciones CUS (9,327 filas) una y otra vez.</p>
+        <p class="mt-2 text-sm text-[#d0d7de]/90">Para cada trámite de matrimonio, la consulta busca el «folio padre» con 4 subconsultas idénticas y además relee completa la tabla de notificaciones CUS (9,327 filas) una y otra vez.</p>
         <div class="mt-5 grid grid-cols-2 gap-4">
-          <div><div class="text-2xl font-extrabold font-mono">41,305</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">costo del árbol de joins</div></div>
-          <div><div class="text-2xl font-extrabold font-mono">×4</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">la misma búsqueda repetida</div></div>
+          <div><div class="text-2xl font-extrabold font-mono">41,305</div><div class="text-[11px] tracking-widest text-[#adbac7] uppercase">costo del árbol de joins</div></div>
+          <div><div class="text-2xl font-extrabold font-mono">×4</div><div class="text-[11px] tracking-widest text-[#adbac7] uppercase">la misma búsqueda repetida</div></div>
         </div>
-        <div class="mt-4 rounded-lg bg-white/10 p-3 text-xs text-indigo-100/90 italic">
+        <div class="mt-4 rounded-lg bg-white/10 p-3 text-xs text-[#d0d7de]/90 italic">
           «Es como llamar cuatro veces al mismo teléfono para preguntar el mismo dato… y hacerlo con cada uno de los trámites revisados.»
         </div>
       </div>
     </article>
 
     <!-- Card: AFTER / improved (lime accent + ring) -->
-    <article class="rounded-xl border border-lime-500/40 dark:border-lime-400/30 bg-white dark:bg-[#111116] overflow-hidden shadow-sm ring-1 ring-lime-500/20">
+    <article class="rounded-xl border border-[#1f2328]/50 dark:border-[#f0f6fc]/40 bg-white dark:bg-[#161b22] overflow-hidden shadow-sm ring-1 ring-[#1f2328]/20 dark:ring-[#f0f6fc]/20">
       <div class="px-4 pt-4 flex items-center gap-2">
-        <span class="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-[0_0_8px_2px_rgba(163,230,53,.6)]"></span>
-        <span class="px-1.5 py-0.5 rounded bg-gradient-to-r from-rose-500 to-amber-500 text-white font-black text-[10px] tracking-wider">TURBO</span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#1f2328] dark:bg-[#f0f6fc]"></span>
+        <span class="px-1.5 py-0.5 rounded bg-[#1f2328] dark:bg-[#f0f6fc] text-white dark:text-[#0d1117] font-black text-[10px] tracking-wider">TURBO</span>
         <h2 class="font-bold text-sm">Consulta optimizada</h2>
       </div>
       <!-- Metric badges — winning metrics use .badge-best and end with the word BEST -->
@@ -97,10 +97,10 @@
         <span class="badge-best">⚡ paralelismo <b class="font-mono">×4</b> BEST</span>
       </div>
       <!-- Checklist panel (light form-like panel with tabs) -->
-      <div class="m-4 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-5">
-        <div class="inline-flex rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-1 text-xs font-semibold">
-          <span class="px-3 py-1 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900">Qué cambió</span>
-          <span class="px-3 py-1 text-slate-500 dark:text-slate-400">Mismo resultado</span>
+      <div class="m-4 rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-white/[.04] p-5">
+        <div class="inline-flex rounded-full border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-white/5 p-1 text-xs font-semibold">
+          <span class="px-3 py-1 rounded-full bg-[#1f2328] text-white dark:bg-white dark:text-[#0d1117]">Qué cambió</span>
+          <span class="px-3 py-1 text-[#59636e] dark:text-[#8b949e]">Mismo resultado</span>
         </div>
         <h3 class="mt-4 text-xl font-extrabold">Pregunta una sola vez y trabaja en 4 carriles</h3>
         <ul class="mt-4 space-y-3 text-sm">
@@ -108,10 +108,10 @@
           <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Adiós a la relectura completa</b> — la tabla de notificaciones CUS se recorre una sola pasada con un filtro inteligente, no una vez por cada fila.</span></li>
           <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Procesamiento en paralelo</b> — el motor reparte la lectura en 4 carriles simultáneos (<span class="font-mono">PARALLEL(4)</span> confirmado en el plan).</span></li>
         </ul>
-        <div class="mt-5 rounded-lg bg-lime-500 dark:bg-lime-400 text-slate-950 text-center font-bold text-sm py-2.5">
+        <div class="mt-5 rounded-lg bg-[#1f2328] dark:bg-[#f0f6fc] text-white dark:text-[#0d1117] text-center font-bold text-sm py-2.5">
           MISMOS 159 REGISTROS · 0 DIFERENCIAS
         </div>
-        <p class="mt-3 text-center text-[11px] tracking-widest uppercase text-slate-500 dark:text-slate-400">— validado con conteo y MINUS simétrico —</p>
+        <p class="mt-3 text-center text-[11px] tracking-widest uppercase text-[#59636e] dark:text-[#8b949e]">— validado con conteo y MINUS simétrico —</p>
       </div>
     </article>
   </section>
@@ -120,48 +120,48 @@
   <section class="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
 
     <!-- Chart -->
-    <div class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
+    <div class="rounded-xl border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] p-5">
       <div class="flex items-center gap-2">
-        <span class="text-lime-600 dark:text-lime-400">📈</span>
+        <span class="text-[#1f2328] dark:text-[#f0f6fc]">📈</span>
         <div>
           <h2 class="text-xs font-bold tracking-[.2em] uppercase">Análisis Comparativo</h2>
-          <p class="text-xs text-slate-500 dark:text-slate-400">Costo acumulado aprox. por etapa del plan de ejecución (EXPLAIN PLAN)</p>
+          <p class="text-xs text-[#59636e] dark:text-[#8b949e]">Costo acumulado aprox. por etapa del plan de ejecución (EXPLAIN PLAN)</p>
         </div>
       </div>
       <div class="mt-4 flex flex-wrap items-center gap-3 text-xs font-mono">
-        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-sky-400"></span> Original</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-lime-400"></span> Optimizada</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-[#8b949e]"></span> Original</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-[#1f2328] dark:bg-[#f0f6fc]"></span> Optimizada</span>
         <button id="replayBtn" type="button"
           class="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border cursor-pointer transition-colors
-                 border-slate-300 text-slate-600 hover:bg-slate-100
+                 border-[#d0d7de] text-[#59636e] hover:bg-[#f6f8fa]
                  dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10">
           <span id="replayIcon">▶</span> repetir animación
         </button>
-        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none text-slate-500 dark:text-slate-400">
-          <input id="logToggle" type="checkbox" class="accent-lime-500"> escala log
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none text-[#59636e] dark:text-[#8b949e]">
+          <input id="logToggle" type="checkbox" class="accent-[#1f2328] dark:accent-[#f0f6fc]"> escala log
         </label>
       </div>
       <div class="mt-2 h-72"><canvas id="costChart"></canvas></div>
-      <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+      <p class="mt-3 text-xs text-[#59636e] dark:text-[#8b949e]">
         💡 <b>Cómo leerla:</b> mientras más baja se mantiene la línea, menos trabajo hace la base de datos. La línea azul (original) se dispara cuando empieza a resolver el folio padre y a releer la tabla CUS; la línea verde (optimizada) se mantiene casi plana de principio a fin.
       </p>
     </div>
 
     <!-- At a glance -->
-    <aside class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
-      <h2 class="text-xs font-bold tracking-[.2em] uppercase text-slate-500 dark:text-slate-400">Resumen de un vistazo</h2>
+    <aside class="rounded-xl border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] p-5">
+      <h2 class="text-xs font-bold tracking-[.2em] uppercase text-[#59636e] dark:text-[#8b949e]">Resumen de un vistazo</h2>
       <div class="mt-4 grid grid-cols-2 gap-3">
-        <div class="stat"><div class="stat-label">🌲 Costo de joins</div><div class="stat-value">41,305 → <span class="text-lime-600 dark:text-lime-400">473</span></div></div>
-        <div class="stat"><div class="stat-label">🔁 Búsquedas repetidas</div><div class="stat-value">4 → <span class="text-lime-600 dark:text-lime-400">0</span></div></div>
-        <div class="stat"><div class="stat-label">⚡ Paralelismo</div><div class="stat-value">1 → <span class="text-lime-600 dark:text-lime-400">×4</span></div></div>
-        <div class="stat"><div class="stat-label">🧾 Registros</div><div class="stat-value">159 → <span class="text-lime-600 dark:text-lime-400">159</span></div></div>
+        <div class="stat"><div class="stat-label">🌲 Costo de joins</div><div class="stat-value">41,305 → <span class="text-[#1f2328] dark:text-[#f0f6fc]">473</span></div></div>
+        <div class="stat"><div class="stat-label">🔁 Búsquedas repetidas</div><div class="stat-value">4 → <span class="text-[#1f2328] dark:text-[#f0f6fc]">0</span></div></div>
+        <div class="stat"><div class="stat-label">⚡ Paralelismo</div><div class="stat-value">1 → <span class="text-[#1f2328] dark:text-[#f0f6fc]">×4</span></div></div>
+        <div class="stat"><div class="stat-label">🧾 Registros</div><div class="stat-value">159 → <span class="text-[#1f2328] dark:text-[#f0f6fc]">159</span></div></div>
       </div>
-      <dl class="mt-5 space-y-2.5 text-xs border-t border-slate-200 dark:border-white/10 pt-4">
-        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Ganadora</dt><dd class="font-mono text-lime-600 dark:text-lime-400">Optimizada</dd></div>
-        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Datos perdidos</dt><dd class="font-mono">0 (MINUS = 0)</dd></div>
-        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan original</dt><dd class="font-mono">1364285783</dd></div>
-        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan optimizada</dt><dd class="font-mono">257900252</dd></div>
-        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Validación</dt><dd class="font-mono">COUNT 159=159 + MINUS simétrico</dd></div>
+      <dl class="mt-5 space-y-2.5 text-xs border-t border-[#d0d7de] dark:border-[#30363d] pt-4">
+        <div class="flex justify-between gap-2"><dt class="text-[#59636e] dark:text-[#8b949e]">Ganadora</dt><dd class="font-mono text-[#1f2328] dark:text-[#f0f6fc]">Optimizada</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-[#59636e] dark:text-[#8b949e]">Datos perdidos</dt><dd class="font-mono">0 (MINUS = 0)</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-[#59636e] dark:text-[#8b949e]">Plan original</dt><dd class="font-mono">1364285783</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-[#59636e] dark:text-[#8b949e]">Plan optimizada</dt><dd class="font-mono">257900252</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-[#59636e] dark:text-[#8b949e]">Validación</dt><dd class="font-mono">COUNT 159=159 + MINUS simétrico</dd></div>
       </dl>
     </aside>
   </section>
@@ -172,14 +172,14 @@
       <span>🔍</span>
       <div>
         <h2 class="text-xs font-bold tracking-[.2em] uppercase">Hallazgos explicados</h2>
-        <p class="text-xs text-slate-500 dark:text-slate-400">Qué encontramos y qué se cambió, explicado sin tecnicismos</p>
+        <p class="text-xs text-[#59636e] dark:text-[#8b949e]">Qué encontramos y qué se cambió, explicado sin tecnicismos</p>
       </div>
     </div>
     <div class="grid md:grid-cols-2 gap-4">
 
       <article class="finding">
         <div class="flex items-center gap-3">
-          <span class="finding-icon bg-sky-500/15 text-sky-600 dark:text-sky-400">1</span>
+          <span class="finding-icon bg-[#8b949e]/15 text-[#59636e] dark:text-[#8b949e]">1</span>
           <h3 class="font-bold text-sm">La misma pregunta, 4 veces por trámite</h3>
         </div>
         <p class="finding-body">La consulta original necesitaba saber el «folio padre» de cada trámite, pero en lugar de averiguarlo una vez, lo preguntaba con 4 subconsultas idénticas. Es como llamar cuatro veces al mismo teléfono para pedir exactamente el mismo dato.</p>
@@ -191,7 +191,7 @@
 
       <article class="finding">
         <div class="flex items-center gap-3">
-          <span class="finding-icon bg-rose-500/15 text-rose-600 dark:text-rose-400">2</span>
+          <span class="finding-icon bg-[#8b949e]/15 text-[#59636e] dark:text-[#8b949e]">2</span>
           <h3 class="font-bold text-sm">Una tabla releída completa una y otra vez</h3>
         </div>
         <p class="finding-body">Para cada fila del resultado, la base releía completa la tabla de notificaciones CUS (9,327 filas). Es como releer el directorio telefónico entero cada vez que quieres confirmar un solo nombre.</p>
@@ -203,7 +203,7 @@
 
       <article class="finding">
         <div class="flex items-center gap-3">
-          <span class="finding-icon bg-lime-500/15 text-lime-600 dark:text-lime-400">3</span>
+          <span class="finding-icon bg-[#1f2328] text-white dark:bg-[#f0f6fc] dark:text-[#0d1117]">3</span>
           <h3 class="font-bold text-sm">Cuatro carriles en lugar de uno</h3>
         </div>
         <p class="finding-body">La versión optimizada le pide al motor que reparta el trabajo pesado entre 4 procesos a la vez, como abrir 4 cajas en el supermercado en lugar de formar a todos en una sola fila.</p>
@@ -216,7 +216,7 @@
       <!-- The guarantee/validation finding closes the list and uses the mandatory emphasis -->
       <article class="finding">
         <div class="flex items-center gap-3">
-          <span class="finding-icon bg-violet-500/15 text-violet-600 dark:text-violet-400">4</span>
+          <span class="finding-icon bg-[#1f2328] text-white dark:bg-[#f0f6fc] dark:text-[#0d1117]">4</span>
           <h3 class="font-bold text-sm">Garantía: ni un dato perdido</h3>
         </div>
         <p class="finding-body">Optimizar no sirve de nada si cambia el resultado. Por eso ambas versiones se compararon fila por fila, como cotejar dos copias del mismo expediente hoja por hoja.</p>
@@ -235,18 +235,18 @@
 
 <style type="text/tailwindcss">
   .badge  { @apply inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1.5 rounded-md border border-slate-300 text-slate-600 dark:border-white/15 dark:text-slate-300; }
-  .badge-best { @apply inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1.5 rounded-md border border-lime-600/50 bg-lime-100 text-lime-800 dark:border-lime-400/40 dark:bg-lime-400/10 dark:text-lime-300; }
-  .check  { @apply mt-0.5 w-5 h-5 shrink-0 grid place-items-center rounded-full bg-lime-500/20 text-lime-700 dark:text-lime-300 text-xs font-bold; }
-  .stat   { @apply rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-3; }
-  .stat-label { @apply text-[10px] tracking-widest uppercase text-slate-500 dark:text-slate-400; }
+  .badge-best { @apply inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1.5 rounded-md border border-[#1f2328]/60 bg-[#1f2328]/5 text-[#1f2328] dark:border-[#f0f6fc]/40 dark:bg-[#f0f6fc]/10 dark:text-[#f0f6fc]; }
+  .check  { @apply mt-0.5 w-5 h-5 shrink-0 grid place-items-center rounded-full bg-[#1f2328]/10 text-[#1f2328] dark:bg-[#f0f6fc]/15 dark:text-[#f0f6fc] text-xs font-bold; }
+  .stat   { @apply rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-white/[.04] p-3; }
+  .stat-label { @apply text-[10px] tracking-widest uppercase text-[#59636e] dark:text-[#8b949e]; }
   .stat-value { @apply mt-1 font-mono font-bold text-sm; }
-  .finding { @apply rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5; }
+  .finding { @apply rounded-xl border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] p-5; }
   .finding-icon { @apply w-8 h-8 shrink-0 grid place-items-center rounded-lg font-mono font-bold text-sm; }
-  .finding-body { @apply mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed; }
-  .finding-fix  { @apply mt-2 text-sm leading-relaxed rounded-lg bg-slate-50 dark:bg-white/[.04] border border-slate-200 dark:border-white/10 p-3; }
-  .finding-tech { @apply mt-2 text-xs text-slate-500 dark:text-slate-400; }
-  .finding-tech summary { @apply cursor-pointer font-semibold text-slate-600 dark:text-slate-300 select-none; }
-  .finding-tech code { @apply font-mono px-1 rounded bg-slate-100 dark:bg-white/10 break-all; }
+  .finding-body { @apply mt-3 text-sm text-[#59636e] dark:text-[#8b949e] leading-relaxed; }
+  .finding-fix  { @apply mt-2 text-sm leading-relaxed rounded-lg bg-[#f6f8fa] dark:bg-white/[.04] border border-[#d0d7de] dark:border-[#30363d] p-3; }
+  .finding-tech { @apply mt-2 text-xs text-[#59636e] dark:text-[#8b949e]; }
+  .finding-tech summary { @apply cursor-pointer font-semibold text-[#59636e] dark:text-[#8b949e] select-none; }
+  .finding-tech code { @apply font-mono px-1 rounded bg-[#eaeef2] dark:bg-white/10 break-all; }
 </style>
 
 <script>
@@ -316,14 +316,14 @@ function themeColors() {
   const dark = document.documentElement.classList.contains('dark');
   return {
     grid: dark ? 'rgba(255,255,255,.08)' : 'rgba(15,23,42,.08)',
-    ticks: dark ? '#94a3b8' : '#64748b',
-    tooltipBg: dark ? '#16161d' : '#ffffff',
+    ticks: dark ? '#8b949e' : '#59636e',
+    tooltipBg: dark ? '#161b22' : '#ffffff',
     tooltipFg: dark ? '#e2e8f0' : '#0f172a',
     tooltipBorder: dark ? 'rgba(255,255,255,.15)' : 'rgba(15,23,42,.15)',
-    blue: dark ? '#38bdf8' : '#0284c7',
-    blueFill: dark ? 'rgba(56,189,248,.18)' : 'rgba(2,132,199,.12)',
-    lime: dark ? '#a3e635' : '#65a30d',
-    limeFill: dark ? 'rgba(163,230,53,.18)' : 'rgba(101,163,13,.12)'
+    blue: dark ? '#8b949e' : '#59636e',
+    blueFill: dark ? 'rgba(139,148,158,.18)' : 'rgba(89,99,110,.12)',
+    lime: dark ? '#f0f6fc' : '#1f2328',
+    limeFill: dark ? 'rgba(240,246,252,.14)' : 'rgba(31,35,40,.08)'
   };
 }
 
