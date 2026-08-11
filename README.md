@@ -10,10 +10,11 @@ optimización de la Query 01 (Desempleo IMSS, Desempleo ISSSTE y Matrimonio).
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # genera dist/
+npm run preview  # sirve el sitio construido
 ```
 
-## Despliegue
+## Integración continua
 
-El workflow `.github/workflows/deploy.yml` construye y publica en GitHub
-Pages en cada push a `main`. Los informes estáticos viven en
-`public/informes/`.
+El workflow `.github/workflows/ci.yml` se ejecuta en cada pull request a
+`main`: valida los mensajes de commit con commitlint y compila el sitio con
+Astro. Los informes estáticos viven en `public/informes/`.
