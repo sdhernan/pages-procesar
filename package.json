@@ -62,8 +62,8 @@
       [
         "@semantic-release/release-notes-generator",
         {
-          "preset": {
-            "name": "conventionalcommits",
+          "preset": "conventionalcommits",
+          "presetConfig": {
             "types": [
               {
                 "type": "feat",
