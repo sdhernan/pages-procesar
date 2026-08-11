@@ -67,12 +67,17 @@ const glance = [
       content="Resultados del proyecto de innovación MCP Server para Oracle: optimización de consultas 1 a 1 con evidencia medible."
     />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
-    <title>MCP Oracle DB · Optimización de consultas Oracle con evidencia</title>
+    <title>
+      MCP Oracle DB · Optimización de consultas Oracle con evidencia
+    </title>
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        document.documentElement.dataset.theme = stored ?? (prefersDark ? "dark" : "light");
+        const prefersDark = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches;
+        document.documentElement.dataset.theme =
+          stored ?? (prefersDark ? "dark" : "light");
       })();
     </script>
     <style>
@@ -159,11 +164,15 @@ const glance = [
       }
 
       header.site {
+        border-bottom: 1px solid var(--border);
+      }
+
+      header.site .container {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--border);
+        padding-top: 1rem;
+        padding-bottom: 1rem;
       }
 
       .brand {
@@ -179,7 +188,8 @@ const glance = [
         height: 0.6rem;
         border-radius: 999px;
         background: var(--accent);
-        box-shadow: 0 0 10px 2px color-mix(in srgb, var(--accent) 55%, transparent);
+        box-shadow: 0 0 10px 2px
+          color-mix(in srgb, var(--accent) 55%, transparent);
       }
 
       #theme-toggle {
@@ -205,23 +215,46 @@ const glance = [
       .hero::before {
         content: "";
         position: absolute;
-        inset: -4rem 0 0;
+        inset: 0;
         background:
-          radial-gradient(560px 300px at 82% 8%, color-mix(in srgb, var(--baseline) 16%, transparent), transparent 70%),
-          radial-gradient(480px 260px at 12% 18%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+          radial-gradient(
+            560px 300px at 82% 8%,
+            color-mix(in srgb, var(--baseline) 16%, transparent),
+            transparent 70%
+          ),
+          radial-gradient(
+            480px 260px at 12% 18%,
+            color-mix(in srgb, var(--accent) 14%, transparent),
+            transparent 70%
+          );
         pointer-events: none;
       }
 
       .hero::after {
         content: "";
         position: absolute;
-        inset: -4rem 0 0;
+        inset: 0;
         background-image:
-          linear-gradient(color-mix(in srgb, var(--text-faint) 10%, transparent) 1px, transparent 1px),
-          linear-gradient(90deg, color-mix(in srgb, var(--text-faint) 10%, transparent) 1px, transparent 1px);
+          linear-gradient(
+            color-mix(in srgb, var(--text-faint) 10%, transparent) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            90deg,
+            color-mix(in srgb, var(--text-faint) 10%, transparent) 1px,
+            transparent 1px
+          );
         background-size: 44px 44px;
-        mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 100%);
-        -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 100%);
+        mask-image: radial-gradient(
+          70% 60% at 50% 30%,
+          #000 0%,
+          transparent 100%
+        );
+        -webkit-mask-image: radial-gradient(
+          70% 60% at 50% 30%,
+          #000 0%,
+          transparent 100%
+        );
         pointer-events: none;
       }
 
@@ -260,7 +293,8 @@ const glance = [
         height: 0.45rem;
         border-radius: 999px;
         background: var(--accent);
-        box-shadow: 0 0 8px 2px color-mix(in srgb, var(--accent) 50%, transparent);
+        box-shadow: 0 0 8px 2px
+          color-mix(in srgb, var(--accent) 50%, transparent);
       }
 
       h1 {
@@ -303,7 +337,9 @@ const glance = [
         font-size: 0.9rem;
         font-weight: 700;
         text-decoration: none;
-        transition: transform 0.15s ease, border-color 0.15s ease;
+        transition:
+          transform 0.15s ease,
+          border-color 0.15s ease;
       }
 
       .btn-primary {
@@ -475,7 +511,12 @@ const glance = [
       }
 
       .card-head {
-        background: linear-gradient(135deg, var(--hero-from), var(--hero-via), var(--hero-to));
+        background: linear-gradient(
+          135deg,
+          var(--hero-from),
+          var(--hero-via),
+          var(--hero-to)
+        );
         color: #fff;
         padding: 1.25rem 1.25rem 1.4rem;
       }
@@ -596,10 +637,14 @@ const glance = [
       footer.site {
         margin-top: 4rem;
         border-top: 1px solid var(--border);
-        padding: 2rem 0 3rem;
         color: var(--text-faint);
         font-size: 0.85rem;
         text-align: center;
+      }
+
+      footer.site .container {
+        padding-top: 2rem;
+        padding-bottom: 3rem;
       }
 
       footer.site a {
@@ -608,116 +653,133 @@ const glance = [
     </style>
   </head>
   <body>
-    <div class="container">
-      <header class="site">
+    <header class="site">
+      <div class="container">
         <div class="brand"><span class="dot"></span> MCP · Oracle DB</div>
-        <button id="theme-toggle" type="button" aria-label="Cambiar tema">🌗 Tema</button>
-      </header>
+        <button id="theme-toggle" type="button" aria-label="Cambiar tema"
+          >🌗 Tema</button
+        >
+      </div>
+    </header>
 
+    <main>
       <section class="hero">
-        <div class="hero-grid">
-          <div>
-            <span class="eyebrow">
-              <span class="dot"></span> Proyecto de innovación · Model Context Protocol
-            </span>
-            <h1>
-              Optimización de consultas Oracle <span class="grad">con evidencia medible</span>
-            </h1>
-            <p class="lede">
-              Un MCP Server conectado a Oracle analiza planes de ejecución, propone
-              reescrituras y verifica el resultado fila por fila. Estos informes
-              comparan, 1 a 1, la consulta original contra su versión optimizada.
-            </p>
-            <div class="hero-actions">
-              <a class="btn-primary" href="#informes">Ver informes ↓</a>
-              <a
-                class="btn-ghost"
-                href="https://github.com/zademy/mcp-oracle-database"
-                rel="noopener"
-                >Repositorio MCP ↗</a
-              >
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <span class="eyebrow">
+                <span class="dot"></span> Proyecto de innovación · Model Context Protocol
+              </span>
+              <h1>
+                Optimización de consultas Oracle <span class="grad"
+                  >con evidencia medible</span
+                >
+              </h1>
+              <p class="lede">
+                Un MCP Server conectado a Oracle analiza planes de ejecución,
+                propone reescrituras y verifica el resultado fila por fila.
+                Estos informes comparan, 1 a 1, la consulta original contra su
+                versión optimizada.
+              </p>
+              <div class="hero-actions">
+                <a class="btn-primary" href="#informes">Ver informes ↓</a>
+                <a
+                  class="btn-ghost"
+                  href="https://github.com/zademy/mcp-oracle-database"
+                  rel="noopener">Repositorio MCP ↗</a
+                >
+              </div>
             </div>
-          </div>
 
-          <div class="terminal" aria-hidden="true">
-            <div class="terminal-bar">
-              <span></span><span></span><span></span>
-              <em>mcp-oracle-db · sesión de análisis</em>
-            </div>
-            <pre><span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · original)
+            <div class="terminal" aria-hidden="true">
+              <div class="terminal-bar">
+                <span></span><span></span><span></span>
+                <em>mcp-oracle-db · sesión de análisis</em>
+              </div>
+              <pre><span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · original)
   <span class="t-dim">costo</span> <span class="t-num">463K</span> · joins <span class="t-num">41,055</span> · paralelismo <span class="t-num">1</span>
 <span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · optimizada)
   joins <span class="t-num">474</span> · paralelismo <span class="t-num">4</span>  <span class="t-ok">✔ 87× menos joins</span>
 <span class="t-cmd">›</span> <span class="t-tool">run_query</span>(verificación 1 a 1)
   <span class="t-num">110</span> registros · <span class="t-ok">0 diferencias ✔</span></pre>
+            </div>
+          </div>
+
+          <div class="stats-strip">
+            {
+              glance.map((s) => (
+                <div class="stat">
+                  <b class="mono">{s.value}</b>
+                  <span>{s.label}</span>
+                </div>
+              ))
+            }
           </div>
         </div>
+      </section>
 
-        <div class="stats-strip">
+      <div class="container">
+        <h2 class="section-title" id="informes">
+          Informes comparativos · Query 01
+        </h2>
+        <p class="section-sub">
+          Cada informe compara la consulta original contra la optimizada: plan
+          de ejecución, costos y verificación de datos fila por fila.
+        </p>
+
+        <section class="cards">
           {
-            glance.map((s) => (
-              <div class="stat">
-                <b class="mono">{s.value}</b>
-                <span>{s.label}</span>
-              </div>
+            reports.map((r) => (
+              <article class="card">
+                <div class="card-head">
+                  <div class="top">
+                    <span class="chip mono">{r.chip}</span>
+                    <span class="chip">{r.badge}</span>
+                  </div>
+                  <h3>{r.title}</h3>
+                  <div class="hero-number mono">
+                    <b>{r.highlight.value}</b>
+                    <span>{r.highlight.label}</span>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <p>{r.description}</p>
+                  <dl class="metrics">
+                    {r.metrics.map((m) => (
+                      <div>
+                        <dt>{m.label}</dt>
+                        <dd class="mono">
+                          {m.before && <span class="before">{m.before} →</span>}
+                          <span class="after">{m.after}</span>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <a class="card-cta" href={r.href}>
+                    Ver informe completo →
+                  </a>
+                </div>
+              </article>
             ))
           }
-        </div>
-      </section>
+        </section>
+      </div>
+    </main>
 
-      <h2 class="section-title" id="informes">Informes comparativos · Query 01</h2>
-      <p class="section-sub">
-        Cada informe compara la consulta original contra la optimizada: plan de ejecución,
-        costos y verificación de datos fila por fila.
-      </p>
-
-      <section class="cards">
-        {
-          reports.map((r) => (
-            <article class="card">
-              <div class="card-head">
-                <div class="top">
-                  <span class="chip mono">{r.chip}</span>
-                  <span class="chip">{r.badge}</span>
-                </div>
-                <h3>{r.title}</h3>
-                <div class="hero-number mono">
-                  <b>{r.highlight.value}</b>
-                  <span>{r.highlight.label}</span>
-                </div>
-              </div>
-              <div class="card-body">
-                <p>{r.description}</p>
-                <dl class="metrics">
-                  {r.metrics.map((m) => (
-                    <div>
-                      <dt>{m.label}</dt>
-                      <dd class="mono">
-                        {m.before && <span class="before">{m.before} →</span>}
-                        <span class="after">{m.after}</span>
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-                <a class="card-cta" href={r.href}>
-                  Ver informe completo →
-                </a>
-              </div>
-            </article>
-          ))
-        }
-      </section>
-
-      <footer class="site">
+    <footer class="site">
+      <div class="container">
         Generado con Astro · Informes producidos por el proyecto
-        <a href="https://github.com/zademy/mcp-oracle-database" rel="noopener">mcp-oracle-database</a>
+        <a href="https://github.com/zademy/mcp-oracle-database" rel="noopener"
+          >mcp-oracle-database</a
+        >
         · Ningún filtro de negocio fue eliminado en las optimizaciones.
-      </footer>
-    </div>
+      </div>
+    </footer>
 
     <script is:inline>
       document.getElementById("theme-toggle").addEventListener("click", () => {
-        const current = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+        const current =
+          document.documentElement.dataset.theme === "dark" ? "dark" : "light";
         const next = current === "dark" ? "light" : "dark";
         document.documentElement.dataset.theme = next;
         localStorage.setItem("theme", next);
