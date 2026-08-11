@@ -1,0 +1,727 @@
+---
+const base = import.meta.env.BASE_URL;
+
+const reports = [
+  {
+    chip: "Q-01",
+    badge: "IMSS",
+    title: "Desempleo IMSS · SIRH CARE",
+    description:
+      "La consulta original repetía la misma búsqueda de folio padre 4 veces por fila. La optimizada pregunta una sola vez y trabaja con 4 procesos en paralelo.",
+    href: `${base}informes/informe-comparativa-query-01.html`,
+    highlight: { value: "87×", label: "menor costo de joins" },
+    metrics: [
+      { label: "Costo de joins", before: "41,055", after: "474" },
+      { label: "Paralelismo", before: "1", after: "4" },
+      { label: "Registros verificados", after: "110" },
+      { label: "Diferencias", after: "0" },
+    ],
+  },
+  {
+    chip: "Q-01",
+    badge: "ISSSTE",
+    title: "Desempleo ISSSTE · S6",
+    description:
+      "El plan original bajaba 2 niveles por cada fila. La versión optimizada elimina las búsquedas por fila y activa paralelismo ×4 confirmado por Oracle.",
+    href: `${base}informes/informe-comparativa-query-01-issste.html`,
+    highlight: { value: "25×", label: "menor costo de joins" },
+    metrics: [
+      { label: "Costo de joins", before: "10,637", after: "431" },
+      { label: "Búsquedas por fila", before: "2 niveles", after: "0" },
+      { label: "Registros verificados", after: "15" },
+      { label: "Paralelismo", after: "×4" },
+    ],
+  },
+  {
+    chip: "Q-01",
+    badge: "MATRIMONIO",
+    title: "Matrimonio · S18",
+    description:
+      "Cuatro búsquedas repetidas por fila en la versión original. La optimizada las reduce a cero con un cruce inteligente de listas y paralelismo ×4.",
+    href: `${base}informes/informe-comparativa-query-01-matrimonio.html`,
+    highlight: { value: "87×", label: "menor costo de joins" },
+    metrics: [
+      { label: "Costo de joins", before: "41,305", after: "473" },
+      { label: "Búsquedas repetidas", before: "4", after: "0" },
+      { label: "Registros verificados", after: "159" },
+      { label: "Paralelismo", after: "×4" },
+    ],
+  },
+];
+
+const glance = [
+  { value: "3", label: "informes comparativos" },
+  { value: "284", label: "registros verificados" },
+  { value: "0", label: "diferencias vs original" },
+  { value: "87×", label: "reducción máxima de costo" },
+];
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Resultados del proyecto de innovación MCP Server para Oracle: optimización de consultas 1 a 1 con evidencia medible."
+    />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <title>MCP Oracle DB · Optimización de consultas Oracle con evidencia</title>
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme = stored ?? (prefersDark ? "dark" : "light");
+      })();
+    </script>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --bg-card: #ffffff;
+        --bg-inset: #f6f8fa;
+        --border: #d0d7de;
+        --text: #1f2328;
+        --text-muted: #59636e;
+        --text-faint: #8b949e;
+        --accent: #1f2328;
+        --accent-strong: #0d1117;
+        --on-accent: #ffffff;
+        --accent-bg: #f6f8fa;
+        --baseline: #8b949e;
+        --hero-from: #1f2328;
+        --hero-via: #2d333b;
+        --hero-to: #444c56;
+        --shadow: 0 1px 3px rgba(31, 35, 40, 0.08);
+      }
+
+      [data-theme="dark"] {
+        --bg: #0d1117;
+        --bg-card: #161b22;
+        --bg-inset: #21262d;
+        --border: #30363d;
+        --text: #f0f6fc;
+        --text-muted: #8b949e;
+        --text-faint: #6e7681;
+        --accent: #f0f6fc;
+        --accent-strong: #ffffff;
+        --on-accent: #0d1117;
+        --accent-bg: rgba(240, 246, 252, 0.08);
+        --baseline: #8b949e;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #0d1117;
+          --bg-card: #161b22;
+          --bg-inset: #21262d;
+          --border: #30363d;
+          --text: #f0f6fc;
+          --text-muted: #8b949e;
+          --text-faint: #6e7681;
+          --accent: #f0f6fc;
+          --accent-strong: #ffffff;
+          --on-accent: #0d1117;
+          --accent-bg: rgba(240, 246, 252, 0.08);
+          --baseline: #8b949e;
+          --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+
+      header.site {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 700;
+        font-size: 0.9rem;
+      }
+
+      .brand .dot {
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 10px 2px color-mix(in srgb, var(--accent) 55%, transparent);
+      }
+
+      #theme-toggle {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.4rem 0.9rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      #theme-toggle:hover {
+        border-color: var(--accent);
+      }
+
+      .hero {
+        position: relative;
+        padding: 4.5rem 0 3rem;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: -4rem 0 0;
+        background:
+          radial-gradient(560px 300px at 82% 8%, color-mix(in srgb, var(--baseline) 16%, transparent), transparent 70%),
+          radial-gradient(480px 260px at 12% 18%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%);
+        pointer-events: none;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: -4rem 0 0;
+        background-image:
+          linear-gradient(color-mix(in srgb, var(--text-faint) 10%, transparent) 1px, transparent 1px),
+          linear-gradient(90deg, color-mix(in srgb, var(--text-faint) 10%, transparent) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 100%);
+        -webkit-mask-image: radial-gradient(70% 60% at 50% 30%, #000 0%, transparent 100%);
+        pointer-events: none;
+      }
+
+      .hero-grid {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 3rem;
+        align-items: center;
+      }
+
+      @media (max-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+        }
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text-muted);
+        border-radius: 999px;
+        padding: 0.35rem 0.9rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow .dot {
+        width: 0.45rem;
+        height: 0.45rem;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 8px 2px color-mix(in srgb, var(--accent) 50%, transparent);
+      }
+
+      h1 {
+        margin: 1.4rem 0 0;
+        max-width: 22ch;
+        font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 800;
+      }
+
+      h1 .grad {
+        background: linear-gradient(90deg, var(--text-muted), var(--text));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lede {
+        max-width: 54ch;
+        margin: 1.25rem 0 0;
+        color: var(--text-muted);
+        font-size: 1.02rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 1.75rem;
+      }
+
+      .btn-primary,
+      .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 0.7rem;
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: var(--on-accent);
+      }
+
+      .btn-primary:hover,
+      .btn-ghost:hover {
+        transform: translateY(-1px);
+      }
+
+      .btn-ghost {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        color: var(--text);
+      }
+
+      .btn-ghost:hover {
+        border-color: var(--accent);
+      }
+
+      .terminal {
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        background: #0b0f14;
+        color: #e6edf3;
+        box-shadow: 0 20px 50px -20px rgba(2, 6, 23, 0.5);
+        overflow: hidden;
+        font-size: 0.8rem;
+      }
+
+      .terminal-bar {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .terminal-bar span {
+        width: 0.65rem;
+        height: 0.65rem;
+        border-radius: 999px;
+        background: #f87171;
+      }
+
+      .terminal-bar span:nth-child(2) {
+        background: #fbbf24;
+      }
+
+      .terminal-bar span:nth-child(3) {
+        background: #34d399;
+      }
+
+      .terminal-bar em {
+        margin-left: 0.5rem;
+        font-style: normal;
+        color: #8b949e;
+        font-size: 0.72rem;
+      }
+
+      .terminal pre {
+        margin: 0;
+        padding: 1.1rem 1.2rem 1.3rem;
+        line-height: 1.75;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        white-space: pre;
+        overflow-x: auto;
+      }
+
+      .terminal .t-cmd {
+        color: #6e7681;
+      }
+
+      .terminal .t-tool {
+        color: #f0f6fc;
+      }
+
+      .terminal .t-ok {
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      .terminal .t-dim {
+        color: #6e7681;
+      }
+
+      .terminal .t-num {
+        color: #d0d7de;
+      }
+
+      .stats-strip {
+        position: relative;
+        margin-top: 3rem;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        background: var(--bg-card);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .stats-strip .stat {
+        padding: 1.2rem 1rem;
+        text-align: center;
+      }
+
+      .stats-strip .stat + .stat {
+        border-left: 1px solid var(--border);
+      }
+
+      .stats-strip .stat b {
+        display: block;
+        font-size: 1.8rem;
+        color: var(--accent);
+      }
+
+      .stats-strip .stat span {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+      }
+
+      @media (max-width: 760px) {
+        .stats-strip {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .stats-strip .stat:nth-child(3) {
+          border-left: 0;
+        }
+
+        .stats-strip .stat:nth-child(n + 3) {
+          border-top: 1px solid var(--border);
+        }
+      }
+
+      h2.section-title {
+        margin: 4rem 0 0.5rem;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .section-sub {
+        margin: 0 0 1.75rem;
+        color: var(--text-faint);
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.25rem;
+      }
+
+      article.card {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .card-head {
+        background: linear-gradient(135deg, var(--hero-from), var(--hero-via), var(--hero-to));
+        color: #fff;
+        padding: 1.25rem 1.25rem 1.4rem;
+      }
+
+      .card-head .top {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .chip {
+        border-radius: 0.4rem;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.15rem 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .card-head h3 {
+        margin: 0.6rem 0 0;
+        font-size: 1.15rem;
+        line-height: 1.3;
+      }
+
+      .card-head .hero-number {
+        margin-top: 0.9rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.6rem;
+      }
+
+      .card-head .hero-number b {
+        font-size: 2.2rem;
+        line-height: 1;
+      }
+
+      .card-head .hero-number span {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      .card-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 1.25rem;
+        gap: 1rem;
+      }
+
+      .card-body p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      dl.metrics {
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+
+      dl.metrics > div {
+        border: 1px solid var(--border);
+        background: var(--bg-inset);
+        border-radius: 0.6rem;
+        padding: 0.6rem 0.7rem;
+      }
+
+      dl.metrics dt {
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+      }
+
+      dl.metrics dd {
+        margin: 0.2rem 0 0;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      dl.metrics dd .before {
+        color: var(--text-faint);
+        font-weight: 500;
+        text-decoration: line-through;
+        margin-right: 0.35rem;
+      }
+
+      dl.metrics dd .after {
+        color: var(--accent-strong);
+      }
+
+      .card-cta {
+        margin-top: auto;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 0.7rem;
+        background: var(--accent-bg);
+        border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        color: var(--accent-strong);
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        padding: 0.7rem 1rem;
+        transition: transform 0.15s ease;
+      }
+
+      .card-cta:hover {
+        transform: translateY(-1px);
+      }
+
+      footer.site {
+        margin-top: 4rem;
+        border-top: 1px solid var(--border);
+        padding: 2rem 0 3rem;
+        color: var(--text-faint);
+        font-size: 0.85rem;
+        text-align: center;
+      }
+
+      footer.site a {
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="site">
+        <div class="brand"><span class="dot"></span> MCP · Oracle DB</div>
+        <button id="theme-toggle" type="button" aria-label="Cambiar tema">🌗 Tema</button>
+      </header>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <span class="eyebrow">
+              <span class="dot"></span> Proyecto de innovación · Model Context Protocol
+            </span>
+            <h1>
+              Optimización de consultas Oracle <span class="grad">con evidencia medible</span>
+            </h1>
+            <p class="lede">
+              Un MCP Server conectado a Oracle analiza planes de ejecución, propone
+              reescrituras y verifica el resultado fila por fila. Estos informes
+              comparan, 1 a 1, la consulta original contra su versión optimizada.
+            </p>
+            <div class="hero-actions">
+              <a class="btn-primary" href="#informes">Ver informes ↓</a>
+              <a
+                class="btn-ghost"
+                href="https://github.com/zademy/mcp-oracle-database"
+                rel="noopener"
+                >Repositorio MCP ↗</a
+              >
+            </div>
+          </div>
+
+          <div class="terminal" aria-hidden="true">
+            <div class="terminal-bar">
+              <span></span><span></span><span></span>
+              <em>mcp-oracle-db · sesión de análisis</em>
+            </div>
+            <pre><span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · original)
+  <span class="t-dim">costo</span> <span class="t-num">463K</span> · joins <span class="t-num">41,055</span> · paralelismo <span class="t-num">1</span>
+<span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · optimizada)
+  joins <span class="t-num">474</span> · paralelismo <span class="t-num">4</span>  <span class="t-ok">✔ 87× menos joins</span>
+<span class="t-cmd">›</span> <span class="t-tool">run_query</span>(verificación 1 a 1)
+  <span class="t-num">110</span> registros · <span class="t-ok">0 diferencias ✔</span></pre>
+          </div>
+        </div>
+
+        <div class="stats-strip">
+          {
+            glance.map((s) => (
+              <div class="stat">
+                <b class="mono">{s.value}</b>
+                <span>{s.label}</span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <h2 class="section-title" id="informes">Informes comparativos · Query 01</h2>
+      <p class="section-sub">
+        Cada informe compara la consulta original contra la optimizada: plan de ejecución,
+        costos y verificación de datos fila por fila.
+      </p>
+
+      <section class="cards">
+        {
+          reports.map((r) => (
+            <article class="card">
+              <div class="card-head">
+                <div class="top">
+                  <span class="chip mono">{r.chip}</span>
+                  <span class="chip">{r.badge}</span>
+                </div>
+                <h3>{r.title}</h3>
+                <div class="hero-number mono">
+                  <b>{r.highlight.value}</b>
+                  <span>{r.highlight.label}</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <p>{r.description}</p>
+                <dl class="metrics">
+                  {r.metrics.map((m) => (
+                    <div>
+                      <dt>{m.label}</dt>
+                      <dd class="mono">
+                        {m.before && <span class="before">{m.before} →</span>}
+                        <span class="after">{m.after}</span>
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+                <a class="card-cta" href={r.href}>
+                  Ver informe completo →
+                </a>
+              </div>
+            </article>
+          ))
+        }
+      </section>
+
+      <footer class="site">
+        Generado con Astro · Informes producidos por el proyecto
+        <a href="https://github.com/zademy/mcp-oracle-database" rel="noopener">mcp-oracle-database</a>
+        · Ningún filtro de negocio fue eliminado en las optimizaciones.
+      </footer>
+    </div>
+
+    <script is:inline>
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const current = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+        const next = current === "dark" ? "light" : "dark";
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem("theme", next);
+      });
+    </script>
+  </body>
+</html>

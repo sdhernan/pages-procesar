@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparativa Query 01 · Matrimonio (S18) · Original vs Optimizada</title>
+<!-- Tailwind CSS v4 (browser build, pinned + SRI) — DO NOT change version/hash without re-fetching SRI -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11/dist/index.global.js"
+        integrity="sha256-eTPiE7OfNDSwTrJNIZ8nlZapx9n3gz9+Oo2zzr5+adM=" crossorigin="anonymous"></script>
+<!-- Chart.js 4 (pinned + SRI) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.js"
+        integrity="sha256-3jFXc0VLYHa2OZC/oFzlFVo39xmSyH17tfmi6mmGl+8=" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style type="text/tailwindcss">
+  /* Class-based dark mode for Tailwind v4 */
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme {
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100 transition-colors duration-300">
+
+<!-- ====== TOP BAR ====== -->
+<header class="sticky top-0 z-50 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0f]/80 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-bold tracking-wide">Resultados</span>
+      <span class="hidden sm:inline text-xs font-mono text-slate-500 dark:text-slate-400">Query 01 · Certificación Matrimonio (S18) · 159 registros</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-white/15 text-slate-600 dark:text-slate-300">
+        ✓ Validado <span class="px-1.5 rounded bg-slate-200 dark:bg-white/10">0 diferencias</span>
+      </span>
+      <button id="themeToggle" aria-label="Cambiar tema"
+        class="inline-flex items-center gap-2 text-xs font-mono font-semibold px-3 py-1.5 rounded-md border transition-colors
+               border-lime-500/60 bg-lime-300 text-slate-900 hover:bg-lime-200
+               dark:bg-lime-300 dark:text-slate-900 dark:hover:bg-lime-200 cursor-pointer">
+        <span id="themeIcon">🌙</span><span id="themeLabel">Oscuro</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+
+  <!-- ====== SIDE-BY-SIDE CARDS (BEFORE vs AFTER) ====== -->
+  <section class="grid md:grid-cols-2 gap-5">
+
+    <!-- Card: BEFORE / baseline (blue accent) -->
+    <article class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111116] overflow-hidden shadow-sm">
+      <div class="px-4 pt-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_8px_2px_rgba(14,165,233,.5)]"></span>
+        <span class="w-6 h-6 grid place-items-center rounded bg-slate-900 dark:bg-white/10 text-white font-black text-xs">Q</span>
+        <h2 class="font-bold text-sm">Consulta original</h2>
+      </div>
+      <!-- Metric badges -->
+      <div class="px-4 pt-3 flex flex-wrap gap-2">
+        <span class="badge">🧾 registros <b class="font-mono">159</b></span>
+        <span class="badge">🌲 costo de joins <b class="font-mono">41,305</b></span>
+        <span class="badge">🔁 búsquedas repetidas <b class="font-mono">4</b></span>
+        <span class="badge">🆔 plan <b class="font-mono">1364285783</b></span>
+      </div>
+      <!-- Hero panel (purple gradient with big numbers + quote) -->
+      <div class="m-4 rounded-lg p-5 text-white bg-gradient-to-br from-indigo-950 via-indigo-800 to-violet-700">
+        <div class="flex items-center gap-2 text-indigo-200 text-xs font-semibold">
+          <span class="w-7 h-7 grid place-items-center rounded-lg bg-white/15">🐢</span>
+          CONSULTA ORIGINAL · TRABAJO REPETIDO
+        </div>
+        <h3 class="mt-3 text-2xl font-extrabold leading-snug">Pregunta lo mismo 4 veces por cada trámite</h3>
+        <p class="mt-2 text-sm text-indigo-100/90">Para cada trámite de matrimonio, la consulta busca el «folio padre» con 4 subconsultas idénticas y además relee completa la tabla de notificaciones CUS (9,327 filas) una y otra vez.</p>
+        <div class="mt-5 grid grid-cols-2 gap-4">
+          <div><div class="text-2xl font-extrabold font-mono">41,305</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">costo del árbol de joins</div></div>
+          <div><div class="text-2xl font-extrabold font-mono">×4</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">la misma búsqueda repetida</div></div>
+        </div>
+        <div class="mt-4 rounded-lg bg-white/10 p-3 text-xs text-indigo-100/90 italic">
+          «Es como llamar cuatro veces al mismo teléfono para preguntar el mismo dato… y hacerlo con cada uno de los trámites revisados.»
+        </div>
+      </div>
+    </article>
+
+    <!-- Card: AFTER / improved (lime accent + ring) -->
+    <article class="rounded-xl border border-lime-500/40 dark:border-lime-400/30 bg-white dark:bg-[#111116] overflow-hidden shadow-sm ring-1 ring-lime-500/20">
+      <div class="px-4 pt-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-[0_0_8px_2px_rgba(163,230,53,.6)]"></span>
+        <span class="px-1.5 py-0.5 rounded bg-gradient-to-r from-rose-500 to-amber-500 text-white font-black text-[10px] tracking-wider">TURBO</span>
+        <h2 class="font-bold text-sm">Consulta optimizada</h2>
+      </div>
+      <!-- Metric badges — winning metrics use .badge-best and end with the word BEST -->
+      <div class="px-4 pt-3 flex flex-wrap gap-2">
+        <span class="badge">🧾 registros <b class="font-mono">159</b></span>
+        <span class="badge-best">🌲 costo de joins <b class="font-mono">473</b> BEST</span>
+        <span class="badge-best">🔁 búsquedas repetidas <b class="font-mono">0</b> BEST</span>
+        <span class="badge-best">⚡ paralelismo <b class="font-mono">×4</b> BEST</span>
+      </div>
+      <!-- Checklist panel (light form-like panel with tabs) -->
+      <div class="m-4 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-5">
+        <div class="inline-flex rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-1 text-xs font-semibold">
+          <span class="px-3 py-1 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900">Qué cambió</span>
+          <span class="px-3 py-1 text-slate-500 dark:text-slate-400">Mismo resultado</span>
+        </div>
+        <h3 class="mt-4 text-xl font-extrabold">Pregunta una sola vez y trabaja en 4 carriles</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Un solo join al folio padre</b> — el dato se busca una única vez (join <span class="font-mono">fpad</span>) y se reutiliza en las 4 uniones que lo necesitan.</span></li>
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Adiós a la relectura completa</b> — la tabla de notificaciones CUS se recorre una sola pasada con un filtro inteligente, no una vez por cada fila.</span></li>
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Procesamiento en paralelo</b> — el motor reparte la lectura en 4 carriles simultáneos (<span class="font-mono">PARALLEL(4)</span> confirmado en el plan).</span></li>
+        </ul>
+        <div class="mt-5 rounded-lg bg-lime-500 dark:bg-lime-400 text-slate-950 text-center font-bold text-sm py-2.5">
+          MISMOS 159 REGISTROS · 0 DIFERENCIAS
+        </div>
+        <p class="mt-3 text-center text-[11px] tracking-widest uppercase text-slate-500 dark:text-slate-400">— validado con conteo y MINUS simétrico —</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ====== ANALYSIS (chart + at-a-glance panel) ====== -->
+  <section class="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
+
+    <!-- Chart -->
+    <div class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
+      <div class="flex items-center gap-2">
+        <span class="text-lime-600 dark:text-lime-400">📈</span>
+        <div>
+          <h2 class="text-xs font-bold tracking-[.2em] uppercase">Análisis Comparativo</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Costo acumulado aprox. por etapa del plan de ejecución (EXPLAIN PLAN)</p>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-xs font-mono">
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-sky-400"></span> Original</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-lime-400"></span> Optimizada</span>
+        <button id="replayBtn" type="button"
+          class="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border cursor-pointer transition-colors
+                 border-slate-300 text-slate-600 hover:bg-slate-100
+                 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10">
+          <span id="replayIcon">▶</span> repetir animación
+        </button>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none text-slate-500 dark:text-slate-400">
+          <input id="logToggle" type="checkbox" class="accent-lime-500"> escala log
+        </label>
+      </div>
+      <div class="mt-2 h-72"><canvas id="costChart"></canvas></div>
+      <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+        💡 <b>Cómo leerla:</b> mientras más baja se mantiene la línea, menos trabajo hace la base de datos. La línea azul (original) se dispara cuando empieza a resolver el folio padre y a releer la tabla CUS; la línea verde (optimizada) se mantiene casi plana de principio a fin.
+      </p>
+    </div>
+
+    <!-- At a glance -->
+    <aside class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
+      <h2 class="text-xs font-bold tracking-[.2em] uppercase text-slate-500 dark:text-slate-400">Resumen de un vistazo</h2>
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <div class="stat"><div class="stat-label">🌲 Costo de joins</div><div class="stat-value">41,305 → <span class="text-lime-600 dark:text-lime-400">473</span></div></div>
+        <div class="stat"><div class="stat-label">🔁 Búsquedas repetidas</div><div class="stat-value">4 → <span class="text-lime-600 dark:text-lime-400">0</span></div></div>
+        <div class="stat"><div class="stat-label">⚡ Paralelismo</div><div class="stat-value">1 → <span class="text-lime-600 dark:text-lime-400">×4</span></div></div>
+        <div class="stat"><div class="stat-label">🧾 Registros</div><div class="stat-value">159 → <span class="text-lime-600 dark:text-lime-400">159</span></div></div>
+      </div>
+      <dl class="mt-5 space-y-2.5 text-xs border-t border-slate-200 dark:border-white/10 pt-4">
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Ganadora</dt><dd class="font-mono text-lime-600 dark:text-lime-400">Optimizada</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Datos perdidos</dt><dd class="font-mono">0 (MINUS = 0)</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan original</dt><dd class="font-mono">1364285783</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan optimizada</dt><dd class="font-mono">257900252</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Validación</dt><dd class="font-mono">COUNT 159=159 + MINUS simétrico</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <!-- ====== FINDINGS EXPLAINED (non-technical, 3 layers each) ====== -->
+  <section>
+    <div class="flex items-center gap-2 mb-4">
+      <span>🔍</span>
+      <div>
+        <h2 class="text-xs font-bold tracking-[.2em] uppercase">Hallazgos explicados</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Qué encontramos y qué se cambió, explicado sin tecnicismos</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-sky-500/15 text-sky-600 dark:text-sky-400">1</span>
+          <h3 class="font-bold text-sm">La misma pregunta, 4 veces por trámite</h3>
+        </div>
+        <p class="finding-body">La consulta original necesitaba saber el «folio padre» de cada trámite, pero en lugar de averiguarlo una vez, lo preguntaba con 4 subconsultas idénticas. Es como llamar cuatro veces al mismo teléfono para pedir exactamente el mismo dato.</p>
+        <p class="finding-fix">✅ <b>Solución:</b> ahora el folio padre se busca una sola vez con una unión directa (<span class="font-mono">fpad</span>) y ese resultado se reutiliza en las 4 uniones que lo necesitan.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          Las 4 subconsultas escalares <code>(SELECT ch_folio FROM PSER_TR_FOLIO_PULSSAR WHERE ID_FOLIO_PULSSAR = f.ID_FOLIO_PULSSAR_PADRE)</code> se reemplazaron por un único <code>LEFT JOIN PSER_TR_FOLIO_PULSSAR fpad</code> sobre la llave primaria (máx. 1 fila; semántica idéntica, incluido el caso de padre NULL). En el plan optimizado los predicados correlacionados desaparecen y quedan como <code>OP07/CUS/OP13/NOTIFTR (+) = FPAD.CH_FOLIO</code>.
+        </details>
+      </article>
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-rose-500/15 text-rose-600 dark:text-rose-400">2</span>
+          <h3 class="font-bold text-sm">Una tabla releída completa una y otra vez</h3>
+        </div>
+        <p class="finding-body">Para cada fila del resultado, la base releía completa la tabla de notificaciones CUS (9,327 filas). Es como releer el directorio telefónico entero cada vez que quieres confirmar un solo nombre.</p>
+        <p class="finding-fix">✅ <b>Solución:</b> con el nuevo join, esa tabla se recorre una sola pasada y un «filtro inteligente» descarta de inmediato lo que no hace falta.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          En el plan original: <code>FILTER + TABLE ACCESS FULL PSER_TR_NOTIF_CUS</code> correlacionado por fila, con <code>BUFFER SORT</code> de costo 41,225 y vista lateral <code>VW_LAT_761F1385</code> de costo 19,863. En el optimizado pasa a <code>HASH JOIN OUTER</code> con bloom filter (<code>:BF0002</code>) y una sola lectura full de la tabla.
+        </details>
+      </article>
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-lime-500/15 text-lime-600 dark:text-lime-400">3</span>
+          <h3 class="font-bold text-sm">Cuatro carriles en lugar de uno</h3>
+        </div>
+        <p class="finding-body">La versión optimizada le pide al motor que reparta el trabajo pesado entre 4 procesos a la vez, como abrir 4 cajas en el supermercado en lugar de formar a todos en una sola fila.</p>
+        <p class="finding-fix">✅ <b>Confirmado:</b> el plan de ejecución reporta textualmente «Degree of Parallelism is 4 because of hint».</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          Hint <code>/*+ PARALLEL(4) */</code>. Plan optimizado hash <code>257900252</code> con operadores <code>PX COORDINATOR / PX SEND / PX RECEIVE</code> y costo del árbol de joins de <code>473</code> (vs <code>41,305</code> del plan original <code>1364285783</code>). Los costos por etapa de la gráfica son aproximados, derivados de los nodos del EXPLAIN PLAN.
+        </details>
+      </article>
+
+      <!-- The guarantee/validation finding closes the list and uses the mandatory emphasis -->
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-violet-500/15 text-violet-600 dark:text-violet-400">4</span>
+          <h3 class="font-bold text-sm">Garantía: ni un dato perdido</h3>
+        </div>
+        <p class="finding-body">Optimizar no sirve de nada si cambia el resultado. Por eso ambas versiones se compararon fila por fila, como cotejar dos copias del mismo expediente hoja por hoja.</p>
+        <p class="finding-fix">✅ <b>Importante (SI O SI):</b> no se eliminó ni modificó ningún filtro, valor o condición de negocio (<span class="font-mono">S18</span>, <span class="font-mono">NU_ACTIVO = 1</span>, fechas comentadas, etc.). Solo cambió la forma de buscar, nunca el qué.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          Validación con el MCP oracle-db: <code>COUNT</code> idéntico (159 = 159) y <code>MINUS</code> simétrico — <code>(original MINUS optimizada) UNION ALL (optimizada MINUS original)</code> sobre la llave (<code>ID_TRAMITE_COMP_INF</code>, <code>ID_TB_ESTADO_TRAMITE</code>) más las 14 columnas afectadas por el cambio (notifTr, op07, cus, op13) = <code>0</code> filas.
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <footer class="pb-8 text-center text-xs text-slate-500 dark:text-slate-500">
+    Datos medidos con <span class="font-mono">explain_plan</span> y <span class="font-mono">run_query</span> del MCP oracle-db · query-01-Desempleo-IMSS-Matrimonio-sirh-care.sql vs query-01-Desempleo-IMSS-Matrimonio-sirh-care-optimizada.sql · Julio 2026
+  </footer>
+</main>
+
+<style type="text/tailwindcss">
+  .badge  { @apply inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1.5 rounded-md border border-slate-300 text-slate-600 dark:border-white/15 dark:text-slate-300; }
+  .badge-best { @apply inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1.5 rounded-md border border-lime-600/50 bg-lime-100 text-lime-800 dark:border-lime-400/40 dark:bg-lime-400/10 dark:text-lime-300; }
+  .check  { @apply mt-0.5 w-5 h-5 shrink-0 grid place-items-center rounded-full bg-lime-500/20 text-lime-700 dark:text-lime-300 text-xs font-bold; }
+  .stat   { @apply rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-3; }
+  .stat-label { @apply text-[10px] tracking-widest uppercase text-slate-500 dark:text-slate-400; }
+  .stat-value { @apply mt-1 font-mono font-bold text-sm; }
+  .finding { @apply rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5; }
+  .finding-icon { @apply w-8 h-8 shrink-0 grid place-items-center rounded-lg font-mono font-bold text-sm; }
+  .finding-body { @apply mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed; }
+  .finding-fix  { @apply mt-2 text-sm leading-relaxed rounded-lg bg-slate-50 dark:bg-white/[.04] border border-slate-200 dark:border-white/10 p-3; }
+  .finding-tech { @apply mt-2 text-xs text-slate-500 dark:text-slate-400; }
+  .finding-tech summary { @apply cursor-pointer font-semibold text-slate-600 dark:text-slate-300 select-none; }
+  .finding-tech code { @apply font-mono px-1 rounded bg-slate-100 dark:bg-white/10 break-all; }
+</style>
+
+<script>
+// ---------- Real data (one label + one value per stage, cumulative preferred) ----------
+// Stage labels from the EXPLAIN PLAN structure of both versions
+const STAGES = ['Lectura base y filtros', 'Folio padre', 'Joins de notificaciones', 'Árbol de joins completo'];
+// Baseline series (blue): cumulative approx. cost from the original plan nodes
+const ORIGINAL  = [120, 21369, 41225, 41305];
+// Improved series (lime): cumulative approx. cost from the optimized plan nodes
+const OPTIMIZED = [120, 143, 455, 473];
+// Fixed linear max, slightly above max(ORIGINAL)
+const Y_MAX = 45000;
+// Unit shown in tooltips
+const UNIT_LABEL = 'unidades de costo (aprox.)';
+
+let chart = null;
+let chartVisible = false;
+
+// Accessibility: honour reduced motion for automatic animation, but still
+// animate when the user explicitly presses "repetir animación".
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DRAW_DURATION = 2800;   // ms for the full stroke
+
+// ---------- "Curtain" reveal: the stroke is uncovered continuously ----------
+// Point-by-point reveal looks steppy with few points. Instead we clip the
+// drawing area and move that clip every frame, so line, fill and points
+// appear smoothly and continuously.
+let reveal = 1;          // 0 = nothing drawn, 1 = full stroke
+let revealFrame = null;
+let clipped = false;
+
+const revealCurtain = {
+  id: 'revealCurtain',
+  beforeDatasetsDraw(chart) {
+    clipped = reveal < 1;
+    if (!clipped) return;
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(left, top, (right - left) * reveal, bottom - top);
+    ctx.clip();
+  },
+  afterDatasetsDraw(chart) {
+    if (clipped) { chart.ctx.restore(); clipped = false; }
+  }
+};
+Chart.register(revealCurtain);
+
+// Smooth start and stop (no jerk at either end).
+const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+function animateReveal() {
+  cancelAnimationFrame(revealFrame);
+  const start = performance.now();
+  reveal = 0;
+  const tick = (now) => {
+    const p = Math.min((now - start) / DRAW_DURATION, 1);
+    reveal = easeInOutCubic(p);
+    chart.draw();
+    if (p < 1) revealFrame = requestAnimationFrame(tick);
+    else { reveal = 1; chart.draw(); }
+  };
+  revealFrame = requestAnimationFrame(tick);
+}
+
+function themeColors() {
+  const dark = document.documentElement.classList.contains('dark');
+  return {
+    grid: dark ? 'rgba(255,255,255,.08)' : 'rgba(15,23,42,.08)',
+    ticks: dark ? '#94a3b8' : '#64748b',
+    tooltipBg: dark ? '#16161d' : '#ffffff',
+    tooltipFg: dark ? '#e2e8f0' : '#0f172a',
+    tooltipBorder: dark ? 'rgba(255,255,255,.15)' : 'rgba(15,23,42,.15)',
+    blue: dark ? '#38bdf8' : '#0284c7',
+    blueFill: dark ? 'rgba(56,189,248,.18)' : 'rgba(2,132,199,.12)',
+    lime: dark ? '#a3e635' : '#65a30d',
+    limeFill: dark ? 'rgba(163,230,53,.18)' : 'rgba(101,163,13,.12)'
+  };
+}
+
+function buildChart(animate = !REDUCED_MOTION) {
+  const c = themeColors();
+  const log = document.getElementById('logToggle').checked;
+  cancelAnimationFrame(revealFrame);
+  reveal = 1;
+  if (chart) chart.destroy();
+  // `monotone` keeps the curve smooth without overshooting real values on
+  // sharp jumps; rounded caps/joins avoid a "spiky" stroke.
+  const line = {
+    fill: true, tension: .4, cubicInterpolationMode: 'monotone',
+    borderWidth: 2.5, borderCapStyle: 'round', borderJoinStyle: 'round',
+    pointRadius: 3, pointHoverRadius: 6, pointHitRadius: 14
+  };
+  chart = new Chart(document.getElementById('costChart'), {
+    type: 'line',
+    data: {
+      labels: STAGES,
+      datasets: [
+        { ...line, label: 'Original', data: ORIGINAL,  borderColor: c.blue, backgroundColor: c.blueFill, pointBackgroundColor: c.blue },
+        { ...line, label: 'Optimizada', data: OPTIMIZED, borderColor: c.lime, backgroundColor: c.limeFill, pointBackgroundColor: c.lime }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: false,            // the stroke is driven by the curtain
+      animations: { colors: false },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: c.tooltipBg, titleColor: c.tooltipFg, bodyColor: c.tooltipFg,
+          borderColor: c.tooltipBorder, borderWidth: 1, padding: 10, displayColors: true,
+          callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-MX')} ${UNIT_LABEL}` }
+        }
+      },
+      scales: {
+        x: { grid: { color: c.grid }, ticks: { color: c.ticks, font: { family: 'JetBrains Mono', size: 9 }, maxRotation: 45, minRotation: 30 } },
+        y: {
+          type: log ? 'logarithmic' : 'linear',
+          // Fixed range keeps the axis from "jumping" while the line draws.
+          min: log ? 10 : 0,
+          max: log ? undefined : Y_MAX,
+          grid: { color: c.grid },
+          ticks: { color: c.ticks, font: { family: 'JetBrains Mono', size: 10 },
+                   callback: v => v >= 1000 ? (v / 1000).toLocaleString('es-MX', { maximumFractionDigits: 1 }) + 'K' : Number(v).toLocaleString('es-MX') }
+        }
+      }
+    }
+  });
+  if (animate) animateReveal();
+}
+
+function replayChart() {
+  const icon = document.getElementById('replayIcon');
+  icon.textContent = '⏳';
+  animateReveal();
+  setTimeout(() => { icon.textContent = '▶'; }, DRAW_DURATION);
+}
+
+// ---------- Light / dark theme with persistence ----------
+function applyTheme(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  document.getElementById('themeIcon').textContent  = dark ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = dark ? 'Oscuro' : 'Claro';
+  localStorage.setItem('cmp-theme', dark ? 'dark' : 'light');
+  if (chartVisible) buildChart(false);   // theme change must not re-animate
+}
+
+document.getElementById('themeToggle').addEventListener('click',
+  () => applyTheme(!document.documentElement.classList.contains('dark')));
+document.getElementById('logToggle').addEventListener('change', () => buildChart(false));
+document.getElementById('replayBtn').addEventListener('click', replayChart);
+
+// Initial state: saved preference > system > dark
+const saved = localStorage.getItem('cmp-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(saved ? saved === 'dark' : (prefersDark || true));
+
+// The animation starts when the chart scrolls into view, not before.
+const chartBox = document.getElementById('costChart');
+new IntersectionObserver((entries, obs) => {
+  if (entries.some(e => e.isIntersecting)) {
+    chartVisible = true;
+    buildChart();
+    obs.disconnect();
+  }
+}, { threshold: .35 }).observe(chartBox);
+</script>
+</body>
+</html>

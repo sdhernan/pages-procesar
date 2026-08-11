@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comparativa Query 01 · Desempleo IMSS (SIRH CARE)</title>
+<!-- Tailwind CSS v4 (browser build, pinned + SRI) -->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11/dist/index.global.js"
+        integrity="sha256-eTPiE7OfNDSwTrJNIZ8nlZapx9n3gz9+Oo2zzr5+adM=" crossorigin="anonymous"></script>
+<!-- Chart.js 4 (pinned + SRI) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.js"
+        integrity="sha256-3jFXc0VLYHa2OZC/oFzlFVo39xmSyH17tfmi6mmGl+8=" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style type="text/tailwindcss">
+  /* Class-based dark mode for Tailwind v4 */
+  @custom-variant dark (&:where(.dark, .dark *));
+  @theme {
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body class="font-sans antialiased bg-slate-50 text-slate-900 dark:bg-[#0a0a0f] dark:text-slate-100 transition-colors duration-300">
+
+<!-- ====== TOP BAR ====== -->
+<header class="sticky top-0 z-50 border-b border-slate-200 dark:border-white/10 bg-white/80 dark:bg-[#0a0a0f]/80 backdrop-blur">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <div class="flex items-center gap-3">
+      <span class="text-sm font-bold tracking-wide">Resultados</span>
+      <span class="hidden sm:inline text-xs font-mono text-slate-500 dark:text-slate-400">query-01 · Desempleo IMSS · SIRH CARE</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-mono px-2.5 py-1.5 rounded-md border border-slate-300 dark:border-white/15 text-slate-600 dark:text-slate-300">
+        ✓ Validado <span class="px-1.5 rounded bg-slate-200 dark:bg-white/10">0 diferencias</span>
+      </span>
+      <button id="themeToggle" aria-label="Cambiar tema"
+        class="inline-flex items-center gap-2 text-xs font-mono font-semibold px-3 py-1.5 rounded-md border transition-colors
+               border-lime-500/60 bg-lime-300 text-slate-900 hover:bg-lime-200
+               dark:bg-lime-300 dark:text-slate-900 dark:hover:bg-lime-200 cursor-pointer">
+        <span id="themeIcon">🌙</span><span id="themeLabel">Oscuro</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+
+  <!-- ====== TARJETAS LADO A LADO (como los dos paneles de la imagen) ====== -->
+  <section class="grid md:grid-cols-2 gap-5">
+
+    <!-- Tarjeta: Query ORIGINAL -->
+    <article class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#111116] overflow-hidden shadow-sm">
+      <div class="px-4 pt-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-sky-500 shadow-[0_0_8px_2px_rgba(14,165,233,.5)]"></span>
+        <span class="w-6 h-6 grid place-items-center rounded bg-slate-900 dark:bg-white/10 text-white font-black text-xs">Q</span>
+        <h2 class="font-bold text-sm">Query Original</h2>
+      </div>
+      <!-- Badges métricos -->
+      <div class="px-4 pt-3 flex flex-wrap gap-2">
+        <span class="badge">⏱ costo total <b class="font-mono">463K</b></span>
+        <span class="badge">🔗 costo joins <b class="font-mono">41,055</b></span>
+        <span class="badge">🧵 paralelismo <b class="font-mono">1</b></span>
+        <span class="badge">📄 registros <b class="font-mono">110</b></span>
+        <span class="badge">🧮 plan <b class="font-mono">1082095650</b></span>
+      </div>
+      <!-- Panel hero (como el panel morado de la imagen) -->
+      <div class="m-4 rounded-lg p-5 text-white bg-gradient-to-br from-indigo-950 via-indigo-800 to-violet-700">
+        <div class="flex items-center gap-2 text-indigo-200 text-xs font-semibold">
+          <span class="w-7 h-7 grid place-items-center rounded-lg bg-white/15">🐢</span>
+          Consulta funcional · pero con trabajo repetido
+        </div>
+        <h3 class="mt-3 text-2xl font-extrabold leading-snug">Pregunta lo mismo<br>4 veces por cada fila.</h3>
+        <p class="mt-2 text-sm text-indigo-100/90">Para cada trámite, la base de datos busca el mismo "folio padre" cuatro veces
+        y, en uno de esos pasos, revisa una lista de 9,288 registros fila por fila.</p>
+        <div class="mt-5 grid grid-cols-2 gap-4">
+          <div><div class="text-2xl font-extrabold font-mono">41,055</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">Costo del cruce de tablas</div></div>
+          <div><div class="text-2xl font-extrabold font-mono">4×</div><div class="text-[11px] tracking-widest text-indigo-200 uppercase">Misma búsqueda repetida</div></div>
+        </div>
+        <div class="mt-4 rounded-lg bg-white/10 p-3 text-xs text-indigo-100/90 italic">
+          «Es como llamar 4 veces al mismo teléfono para confirmar la misma dirección, en cada uno de los 110 envíos.»
+        </div>
+      </div>
+    </article>
+
+    <!-- Tarjeta: Query OPTIMIZADA -->
+    <article class="rounded-xl border border-lime-500/40 dark:border-lime-400/30 bg-white dark:bg-[#111116] overflow-hidden shadow-sm ring-1 ring-lime-500/20">
+      <div class="px-4 pt-4 flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-lime-400 shadow-[0_0_8px_2px_rgba(163,230,53,.6)]"></span>
+        <span class="px-1.5 py-0.5 rounded bg-gradient-to-r from-rose-500 to-amber-500 text-white font-black text-[10px] tracking-wider">TURBO</span>
+        <h2 class="font-bold text-sm">Query Optimizada</h2>
+      </div>
+      <!-- Badges métricos (BEST en verde, como la imagen) -->
+      <div class="px-4 pt-3 flex flex-wrap gap-2">
+        <span class="badge-best">🔗 costo joins <b class="font-mono">474</b> BEST</span>
+        <span class="badge-best">🧵 paralelismo <b class="font-mono">4</b> BEST</span>
+        <span class="badge">📄 registros <b class="font-mono">110</b></span>
+        <span class="badge-best">✓ diferencias <b class="font-mono">0</b> BEST</span>
+        <span class="badge">🧮 plan <b class="font-mono">935769471</b></span>
+      </div>
+      <!-- Panel checklist (como el formulario claro de la imagen) -->
+      <div class="m-4 rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-5">
+        <div class="inline-flex rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 p-1 text-xs font-semibold">
+          <span class="px-3 py-1 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900">Qué cambió</span>
+          <span class="px-3 py-1 text-slate-500 dark:text-slate-400">Mismo resultado</span>
+        </div>
+        <h3 class="mt-4 text-xl font-extrabold">Pregunta una sola vez,<br>y trabaja entre 4.</h3>
+        <ul class="mt-4 space-y-3 text-sm">
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>1 sola búsqueda del folio padre</b> — se consulta una vez y se reutiliza en los 4 cruces.</span></li>
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>Cruce inteligente de listas</b> — adiós a revisar 9,288 filas una por una.</span></li>
+          <li class="flex gap-3 items-start"><span class="check">✓</span><span><b>4 trabajadores en paralelo</b> — hint <code class="font-mono text-xs px-1 rounded bg-slate-200 dark:bg-white/10">PARALLEL(4)</code> confirmado por Oracle.</span></li>
+        </ul>
+        <div class="mt-5 rounded-lg bg-lime-500 dark:bg-lime-400 text-slate-950 text-center font-bold text-sm py-2.5">
+          110 registros verificados · idénticos al original
+        </div>
+        <p class="mt-3 text-center text-[11px] tracking-widest uppercase text-slate-500 dark:text-slate-400">— sin perder ni un dato —</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ====== ANÁLISIS (gráfica + panel "de un vistazo", como la parte inferior de la imagen) ====== -->
+  <section class="grid lg:grid-cols-[1.6fr_1fr] gap-6 items-start">
+
+    <!-- Gráfica -->
+    <div class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
+      <div class="flex items-center gap-2">
+        <span class="text-lime-600 dark:text-lime-400">📈</span>
+        <div>
+          <h2 class="text-xs font-bold tracking-[.2em] uppercase">Análisis Comparativo</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Esfuerzo acumulado del motor de base de datos, etapa por etapa (unidades de costo del optimizador · aprox.)</p>
+        </div>
+      </div>
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-xs font-mono">
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-sky-400"></span> Original</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-3 h-1 rounded bg-lime-400"></span> Optimizada</span>
+        <button id="replayBtn" type="button"
+          class="ml-auto inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border cursor-pointer transition-colors
+                 border-slate-300 text-slate-600 hover:bg-slate-100
+                 dark:border-white/15 dark:text-slate-300 dark:hover:bg-white/10">
+          <span id="replayIcon">▶</span> repetir animación
+        </button>
+        <label class="inline-flex items-center gap-1.5 cursor-pointer select-none text-slate-500 dark:text-slate-400">
+          <input id="logToggle" type="checkbox" class="accent-lime-500"> escala log
+        </label>
+      </div>
+      <div class="mt-2 h-72"><canvas id="costChart"></canvas></div>
+      <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
+        💡 <b>Cómo leerla:</b> la animación avanza etapa por etapa, igual que la consulta. La línea <span class="text-sky-500 font-semibold">azul (original)</span> se dispara
+        al llegar a <span class="font-mono">Notif. CUS</span>: ahí revisaba 9,288 filas una por una. La línea
+        <span class="text-lime-500 font-semibold">verde (optimizada)</span> se mantiene plana porque cruza las listas de una sola pasada.
+      </p>
+    </div>
+
+    <!-- De un vistazo -->
+    <aside class="rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5">
+      <h2 class="text-xs font-bold tracking-[.2em] uppercase text-slate-500 dark:text-slate-400">Resumen de un vistazo</h2>
+      <div class="mt-4 grid grid-cols-2 gap-3">
+        <div class="stat"><div class="stat-label">⏱ Costo joins</div><div class="stat-value">41,055 → <span class="text-lime-600 dark:text-lime-400">474</span></div></div>
+        <div class="stat"><div class="stat-label">🚀 Mejora</div><div class="stat-value text-lime-600 dark:text-lime-400">~87×</div></div>
+        <div class="stat"><div class="stat-label">🧵 Paralelismo</div><div class="stat-value">1 → <span class="text-lime-600 dark:text-lime-400">4</span></div></div>
+        <div class="stat"><div class="stat-label"># Registros</div><div class="stat-value">110 = 110</div></div>
+      </div>
+      <dl class="mt-5 space-y-2.5 text-xs border-t border-slate-200 dark:border-white/10 pt-4">
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Ganadora</dt><dd class="font-mono font-semibold text-lime-600 dark:text-lime-400">Query Optimizada</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Datos perdidos</dt><dd class="font-mono font-semibold">Ninguno (MINUS = 0)</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan original</dt><dd class="font-mono">1082095650</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Plan optimizada</dt><dd class="font-mono">935769471</dd></div>
+        <div class="flex justify-between gap-2"><dt class="text-slate-500 dark:text-slate-400">Validación</dt><dd class="font-mono">EXPLAIN PLAN + conteo + MINUS</dd></div>
+      </dl>
+    </aside>
+  </section>
+
+  <!-- ====== HALLAZGOS EXPLICADOS ====== -->
+  <section>
+    <div class="flex items-center gap-2 mb-4">
+      <span>🔍</span>
+      <div>
+        <h2 class="text-xs font-bold tracking-[.2em] uppercase">Hallazgos explicados</h2>
+        <p class="text-xs text-slate-500 dark:text-slate-400">Qué encontramos, qué significa y por qué no se pierde información</p>
+      </div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-sky-500/15 text-sky-600 dark:text-sky-400">1</span>
+          <h3 class="font-bold text-sm">La misma pregunta, repetida 4 veces</h3>
+        </div>
+        <p class="finding-body">La consulta original buscaba el <b>"folio padre"</b> de cada trámite con una mini-consulta idéntica,
+        repetida en 4 cruces distintos. <b>Analogía:</b> llamar 4 veces al mismo número para confirmar la misma dirección antes de cada entrega.</p>
+        <p class="finding-fix">✅ <b>Solución:</b> se busca el folio padre <b>una sola vez</b> (unión directa por su llave principal) y se reutiliza en los 4 cruces. El resultado es matemáticamente el mismo: esa llave devuelve como máximo 1 fila.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          4 subconsultas escalares <code>(SELECT ch_folio FROM PSER_TR_FOLIO_PULSSAR WHERE ID_FOLIO_PULSSAR = f.ID_FOLIO_PULSSAR_PADRE)</code>
+          reemplazadas por <code>LEFT JOIN PSER_TR_FOLIO_PULSSAR fpad</code> sobre la PK. Semántica idéntica, incluido el caso de padre NULL.
+        </details>
+      </article>
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-rose-500/15 text-rose-600 dark:text-rose-400">2</span>
+          <h3 class="font-bold text-sm">Una lista de 9,288 filas revisada una por una</h3>
+        </div>
+        <p class="finding-body">El paso más caro (≈90% del esfuerzo del cruce) estaba en la tabla <b>Notif. CUS</b>: por cada trámite,
+        el motor recorría toda la lista buscando coincidencias. <b>Analogía:</b> buscar un nombre releyendo la guía telefónica completa… 110 veces.</p>
+        <p class="finding-fix">✅ <b>Solución:</b> al existir el folio padre como columna normal, Oracle cambia solo a un <b>cruce de listas en una pasada</b> (hash join con filtro bloom). El costo de esa etapa cayó de ~40,990 a prácticamente nada.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          El plan original mostraba <code>FILTER + TABLE ACCESS FULL PSER_TR_NOTIF_CUS</code> correlacionado por fila (costo 40,990).
+          El plan optimizado usa <code>HASH JOIN OUTER + SYS_OP_BLOOM_FILTER</code> distribuido entre esclavos PX.
+        </details>
+      </article>
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-lime-500/15 text-lime-600 dark:text-lime-400">3</span>
+          <h3 class="font-bold text-sm">Ahora trabajan 4 personas en vez de 1</h3>
+        </div>
+        <p class="finding-body">Se agregó la instrucción <b>PARALLEL(4)</b>: Oracle divide el trabajo pesado entre 4 procesos que avanzan al mismo tiempo.
+        <b>Analogía:</b> en lugar de un solo cajero atendiendo la fila, se abren 4 cajas.</p>
+        <p class="finding-fix">✅ <b>Confirmado:</b> el plan de ejecución indica textualmente <i>"Degree of Parallelism is 4 because of hint"</i>.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          Hint <code>/*+ PARALLEL(4) */</code>. El plan muestra <code>PX COORDINATOR</code>, colas <code>:TQ10000–:TQ10009</code> y
+          <code>PX BLOCK ITERATOR</code> sobre los full scans (estado trámite, CUS, expediente).
+        </details>
+      </article>
+
+      <article class="finding">
+        <div class="flex items-center gap-3">
+          <span class="finding-icon bg-violet-500/15 text-violet-600 dark:text-violet-400">4</span>
+          <h3 class="font-bold text-sm">Garantía: ni un dato perdido</h3>
+        </div>
+        <p class="finding-body">Optimizar no sirve si cambia el resultado. Por eso se comparó todo contra todo:
+        <b>mismo total (110 = 110)</b> y una <b>comparación cruzada en ambas direcciones</b> que arrojó <b>0 diferencias</b>.
+        <b>Analogía:</b> imprimir las dos listas y ponerlas a contraluz — coinciden línea por línea.</p>
+        <p class="finding-fix">✅ <b>Importante (SI O SI):</b> ningún filtro, valor ni condición del negocio fue eliminado o modificado; solo cambió la <i>forma</i> de buscar, nunca el <i>qué</i> se busca.</p>
+        <details class="finding-tech"><summary>Detalle técnico</summary>
+          Validación con diferencia simétrica: <code>(original MINUS optimizada) UNION ALL (optimizada MINUS original)</code>
+          sobre la llave y las 15 columnas afectadas por el cambio → <b>0 filas</b>. Filtros de fecha comentados preservados.
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <footer class="pb-8 text-center text-xs text-slate-500 dark:text-slate-500">
+    Informe generado desde mediciones reales vía MCP oracle-db (EXPLAIN PLAN + run_query) ·
+    <span class="font-mono">query-01-Desempleo-IMSS-sirh-care-optimizada.sql</span>
+  </footer>
+</main>
+
+<style type="text/tailwindcss">
+  .badge  { @apply inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-1.5 rounded-md border border-slate-300 text-slate-600 dark:border-white/15 dark:text-slate-300; }
+  .badge-best { @apply inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-1.5 rounded-md border border-lime-600/50 bg-lime-100 text-lime-800 dark:border-lime-400/40 dark:bg-lime-400/10 dark:text-lime-300; }
+  .check  { @apply mt-0.5 w-5 h-5 shrink-0 grid place-items-center rounded-full bg-lime-500/20 text-lime-700 dark:text-lime-300 text-xs font-bold; }
+  .stat   { @apply rounded-lg border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/[.04] p-3; }
+  .stat-label { @apply text-[10px] tracking-widest uppercase text-slate-500 dark:text-slate-400; }
+  .stat-value { @apply mt-1 font-mono font-bold text-sm; }
+  .finding { @apply rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0e0e13] p-5; }
+  .finding-icon { @apply w-8 h-8 shrink-0 grid place-items-center rounded-lg font-mono font-bold text-sm; }
+  .finding-body { @apply mt-3 text-sm text-slate-600 dark:text-slate-300 leading-relaxed; }
+  .finding-fix  { @apply mt-2 text-sm leading-relaxed rounded-lg bg-slate-50 dark:bg-white/[.04] border border-slate-200 dark:border-white/10 p-3; }
+  .finding-tech { @apply mt-2 text-xs text-slate-500 dark:text-slate-400; }
+  .finding-tech summary { @apply cursor-pointer font-semibold text-slate-600 dark:text-slate-300 select-none; }
+  .finding-tech code { @apply font-mono px-1 rounded bg-slate-100 dark:bg-white/10 break-all; }
+</style>
+
+<script>
+// ---------- Datos reales (costo acumulado aprox. por etapa, tomado de EXPLAIN PLAN) ----------
+const STAGES = ['Trámites + Servicio','Estados trámite','Catálogo estados','Detalle / Riesgo','Folios',
+                'Expediente','Notif. tipo retiro','Notif. cert. (OP07)','Notif. CUS','Notif. ret. (OP13)','Usuarios','Cierre joins'];
+const ORIGINAL  = [218, 359, 363, 384, 386, 1490, 1494, 1500, 40993, 40997, 40999, 41055];
+const OPTIMIZED = [ 62, 100, 102, 122, 126,  452,  453,  454,   460,   462,   464,   474];
+
+let chart = null;
+let chartVisible = false;
+
+// Accesibilidad: si el sistema pide menos movimiento no animamos por nuestra
+// cuenta, pero sí cuando el usuario pulsa "repetir animación" (acto intencional).
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DRAW_DURATION = 2800;   // ms que tarda el trazo completo
+
+// ---------- Animación de "cortina": el trazo se descubre de forma continua ----------
+// Revelar punto por punto se percibe a saltos (sólo hay 12 puntos). En su lugar
+// recortamos el área de dibujo y movemos ese recorte a 60 fps, así la línea, el
+// área y los puntos aparecen de forma fluida y continua.
+let reveal = 1;          // 0 = nada dibujado, 1 = trazo completo
+let revealFrame = null;
+let clipped = false;
+
+const revealCurtain = {
+  id: 'revealCurtain',
+  beforeDatasetsDraw(chart) {
+    clipped = reveal < 1;
+    if (!clipped) return;
+    const { ctx, chartArea: { left, right, top, bottom } } = chart;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(left, top, (right - left) * reveal, bottom - top);
+    ctx.clip();
+  },
+  afterDatasetsDraw(chart) {
+    if (clipped) { chart.ctx.restore(); clipped = false; }
+  }
+};
+Chart.register(revealCurtain);
+
+// Arranque y frenado suaves (sin tirones al principio ni al final).
+const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+function animateReveal() {
+  cancelAnimationFrame(revealFrame);
+  const start = performance.now();
+  reveal = 0;
+  const tick = (now) => {
+    const p = Math.min((now - start) / DRAW_DURATION, 1);
+    reveal = easeInOutCubic(p);
+    chart.draw();
+    if (p < 1) revealFrame = requestAnimationFrame(tick);
+    else { reveal = 1; chart.draw(); }
+  };
+  revealFrame = requestAnimationFrame(tick);
+}
+
+function themeColors() {
+  const dark = document.documentElement.classList.contains('dark');
+  return {
+    grid: dark ? 'rgba(255,255,255,.08)' : 'rgba(15,23,42,.08)',
+    ticks: dark ? '#94a3b8' : '#64748b',
+    tooltipBg: dark ? '#16161d' : '#ffffff',
+    tooltipFg: dark ? '#e2e8f0' : '#0f172a',
+    tooltipBorder: dark ? 'rgba(255,255,255,.15)' : 'rgba(15,23,42,.15)',
+    blue: dark ? '#38bdf8' : '#0284c7',
+    blueFill: dark ? 'rgba(56,189,248,.18)' : 'rgba(2,132,199,.12)',
+    lime: dark ? '#a3e635' : '#65a30d',
+    limeFill: dark ? 'rgba(163,230,53,.18)' : 'rgba(101,163,13,.12)'
+  };
+}
+
+function buildChart(animate = !REDUCED_MOTION) {
+  const c = themeColors();
+  const log = document.getElementById('logToggle').checked;
+  cancelAnimationFrame(revealFrame);
+  reveal = 1;
+  if (chart) chart.destroy();
+  // `monotone` mantiene la curva suave sin sobrepasar los valores reales en el
+  // salto de Notif. CUS; los extremos redondeados evitan el trazo "picudo".
+  const line = {
+    fill: true, tension: .4, cubicInterpolationMode: 'monotone',
+    borderWidth: 2.5, borderCapStyle: 'round', borderJoinStyle: 'round',
+    pointRadius: 3, pointHoverRadius: 6, pointHitRadius: 14
+  };
+  chart = new Chart(document.getElementById('costChart'), {
+    type: 'line',
+    data: {
+      labels: STAGES,
+      datasets: [
+        { ...line, label: 'Original',   data: ORIGINAL,  borderColor: c.blue, backgroundColor: c.blueFill, pointBackgroundColor: c.blue },
+        { ...line, label: 'Optimizada', data: OPTIMIZED, borderColor: c.lime, backgroundColor: c.limeFill, pointBackgroundColor: c.lime }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: false,            // el trazo lo controla la cortina
+      animations: { colors: false },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: c.tooltipBg, titleColor: c.tooltipFg, bodyColor: c.tooltipFg,
+          borderColor: c.tooltipBorder, borderWidth: 1, padding: 10, displayColors: true,
+          callbacks: { label: (ctx) => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-MX')} unidades de costo` }
+        }
+      },
+      scales: {
+        x: { grid: { color: c.grid }, ticks: { color: c.ticks, font: { family: 'JetBrains Mono', size: 9 }, maxRotation: 45, minRotation: 30 } },
+        y: {
+          type: log ? 'logarithmic' : 'linear',
+          // Fijar el rango evita que el eje "salte" mientras se dibuja la línea.
+          min: log ? 10 : 0,
+          max: log ? undefined : 45000,
+          grid: { color: c.grid },
+          ticks: { color: c.ticks, font: { family: 'JetBrains Mono', size: 10 },
+                   callback: v => v >= 1000 ? (v / 1000).toLocaleString('es-MX', { maximumFractionDigits: 1 }) + 'K' : Number(v).toLocaleString('es-MX') }
+        }
+      }
+    }
+  });
+  if (animate) animateReveal();
+}
+
+function replayChart() {
+  const icon = document.getElementById('replayIcon');
+  icon.textContent = '⏳';
+  animateReveal();
+  setTimeout(() => { icon.textContent = '▶'; }, DRAW_DURATION);
+}
+
+// ---------- Tema claro / oscuro con persistencia ----------
+function applyTheme(dark) {
+  document.documentElement.classList.toggle('dark', dark);
+  document.getElementById('themeIcon').textContent  = dark ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = dark ? 'Oscuro' : 'Claro';
+  localStorage.setItem('cmp-theme', dark ? 'dark' : 'light');
+  if (chartVisible) buildChart(false);   // cambiar de tema no debe re-animar
+}
+
+document.getElementById('themeToggle').addEventListener('click',
+  () => applyTheme(!document.documentElement.classList.contains('dark')));
+document.getElementById('logToggle').addEventListener('change', () => buildChart(false));
+document.getElementById('replayBtn').addEventListener('click', replayChart);
+
+// Estado inicial: preferencia guardada > sistema > oscuro
+const saved = localStorage.getItem('cmp-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyTheme(saved ? saved === 'dark' : (prefersDark || true));
+
+// La animación arranca cuando la gráfica entra en pantalla, no antes.
+const chartBox = document.getElementById('costChart');
+new IntersectionObserver((entries, obs) => {
+  if (entries.some(e => e.isIntersecting)) {
+    chartVisible = true;
+    buildChart();
+    obs.disconnect();
+  }
+}, { threshold: .35 }).observe(chartBox);
+</script>
+</body>
+</html>
