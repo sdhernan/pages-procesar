@@ -123,7 +123,7 @@ const mcpConfig = `{
       content="mcp-oracle-db: servidor MCP para Oracle Database. Introspección de esquemas, SQL seguro y diagnóstico de rendimiento, con seguridad least-privilege impuesta por Oracle."
     />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
-    <title>mcp-oracle-db · Oracle para tu IA, con candado</title>
+    <title>mcp-oracle-db · IA con Oracle Database segura</title>
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("theme");
@@ -1052,7 +1052,9 @@ const mcpConfig = `{
                 <span class="dot"></span> Proyecto de innovación · Model Context Protocol
               </span>
               <h1>
-                Oracle para tu IA, <span class="grad">con candado</span>
+                Inteligencia Artificial con <span class="grad"
+                  >Oracle Database segura</span
+                >
               </h1>
               <p class="lede">
                 Un servidor MCP construido con Spring Boot que deja a cualquier
@@ -1355,7 +1357,9 @@ const mcpConfig = `{
         const canvas = document.getElementById("hero-canvas");
         if (canvas) {
           const ctx = canvas.getContext("2d");
-          let W, H, particles = [];
+          let W,
+            H,
+            particles = [];
           const COUNT = 60;
           const DIST = 110;
           const SPEED = 0.3;
@@ -1428,7 +1432,10 @@ const mcpConfig = `{
           resize();
           init();
           update();
-          window.addEventListener("resize", () => { resize(); init(); });
+          window.addEventListener("resize", () => {
+            resize();
+            init();
+          });
         }
 
         // Botón copiar — funciona aunque GSAP no cargue
