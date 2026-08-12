@@ -264,6 +264,7 @@ const mcpConfig = `{
       .act-hero {
         position: relative;
         padding: 4.5rem 0 3rem;
+        overflow: hidden;
       }
 
       .act-hero::before {
@@ -310,6 +311,21 @@ const mcpConfig = `{
           transparent 100%
         );
         pointer-events: none;
+      }
+
+      .hero-particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .hero-particles canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.55;
       }
 
       .hero-grid {
@@ -1026,6 +1042,9 @@ const mcpConfig = `{
 
     <main>
       <section class="act act-hero" id="inicio">
+        <div class="hero-particles" aria-hidden="true">
+          <canvas id="hero-canvas"></canvas>
+        </div>
         <div class="container">
           <div class="hero-grid">
             <div>
@@ -1332,6 +1351,86 @@ const mcpConfig = `{
       crossorigin="anonymous"></script>
     <script is:inline>
       (function () {
+        // Partículas conectadas — fondo del hero
+        const canvas = document.getElementById("hero-canvas");
+        if (canvas) {
+          const ctx = canvas.getContext("2d");
+          let W, H, particles = [];
+          const COUNT = 60;
+          const DIST = 110;
+          const SPEED = 0.3;
+
+          function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            W = canvas.parentElement.offsetWidth;
+            H = canvas.parentElement.offsetHeight;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          }
+
+          function init() {
+            particles = [];
+            for (let i = 0; i < COUNT; i++) {
+              particles.push({
+                x: Math.random() * W,
+                y: Math.random() * H,
+                vx: (Math.random() - 0.5) * SPEED,
+                vy: (Math.random() - 0.5) * SPEED,
+                r: Math.random() * 1.5 + 0.8,
+              });
+            }
+          }
+
+          function draw() {
+            ctx.clearRect(0, 0, W, H);
+            const isDark = document.documentElement.dataset.theme === "dark";
+            const color = isDark ? "240,246,252" : "31,35,40";
+
+            // Dibujar líneas entre partículas cercanas
+            for (let i = 0; i < particles.length; i++) {
+              for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < DIST) {
+                  const alpha = 1 - dist / DIST;
+                  ctx.beginPath();
+                  ctx.strokeStyle = `rgba(${color},${alpha * 0.18})`;
+                  ctx.lineWidth = 0.8;
+                  ctx.moveTo(particles[i].x, particles[i].y);
+                  ctx.lineTo(particles[j].x, particles[j].y);
+                  ctx.stroke();
+                }
+              }
+            }
+
+            // Dibujar partículas
+            for (const p of particles) {
+              ctx.beginPath();
+              ctx.fillStyle = `rgba(${color},0.45)`;
+              ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          function update() {
+            for (const p of particles) {
+              p.x += p.vx;
+              p.y += p.vy;
+              if (p.x < 0 || p.x > W) p.vx *= -1;
+              if (p.y < 0 || p.y > H) p.vy *= -1;
+            }
+            draw();
+            requestAnimationFrame(update);
+          }
+
+          resize();
+          init();
+          update();
+          window.addEventListener("resize", () => { resize(); init(); });
+        }
+
         // Botón copiar — funciona aunque GSAP no cargue
         const copyBtn = document.getElementById("copy-config");
         if (copyBtn) {
