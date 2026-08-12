@@ -13,9 +13,12 @@ npm run build    # genera dist/
 npm run preview  # sirve el sitio construido
 ```
 
-## Integración continua
+## Despliegue
 
-El workflow `.github/workflows/ci.yml` compila el sitio en cada pull
-request a `main`; en cada push a `main` publica el sitio en GitHub
-Pages y genera la release con semantic-release. Los informes
-estáticos viven en `public/informes/`.
+El workflow `.github/workflows/deploy.yml` compila y publica el sitio en
+GitHub Pages con cada push a `main`. También puede ejecutarse manualmente desde
+la pestaña Actions.
+
+La URL pública es <https://sdhernan.github.io/pages-procesar/>. En la
+configuración del repositorio, `Settings > Pages > Build and deployment >
+Source` debe estar en `GitHub Actions`.
