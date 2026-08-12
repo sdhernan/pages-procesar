@@ -97,6 +97,20 @@ const capabilityNumbers = [
   { value: 6, suffix: "", label: "prompts guiados" },
   { value: 13, suffix: "", label: "completions" },
 ];
+
+const mcpConfig = `{
+  "mcpServers": {
+    "oracle-db": {
+      "command": "/path/to/jdk/bin/java",
+      "args": ["-jar", "/absolute/path/mcp-oracle-db-0.0.1-SNAPSHOT.jar"],
+      "env": {
+        "ORACLE_DB_URL": "jdbc:oracle:thin:@//db.host:1521/ORCLPDB1",
+        "ORACLE_DB_USERNAME": "mcp_user",
+        "ORACLE_DB_PASSWORD": "s3cret"
+      }
+    }
+  }
+}`;
 ---
 
 <!doctype html>
@@ -823,6 +837,181 @@ const capabilityNumbers = [
         text-transform: uppercase;
         color: var(--text-faint);
       }
+
+      .act-tools {
+        padding: 4rem 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        border-top: 1px solid var(--border);
+      }
+
+      .tools-intro {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.5rem;
+      }
+
+      .capability-strip {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .capability b {
+        display: block;
+        font-size: 1.5rem;
+        color: var(--accent);
+      }
+
+      .capability span {
+        font-size: 0.7rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+      }
+
+      .tool-deck {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+
+      @media (max-width: 1000px) {
+        .tool-deck {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .tool-deck {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .tool-card {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        border-radius: 0.9rem;
+        padding: 1rem 1.1rem;
+        box-shadow: var(--shadow);
+      }
+
+      .tool-card h3 {
+        margin: 0 0 0.6rem;
+        font-size: 0.85rem;
+        letter-spacing: 0.04em;
+      }
+
+      .tool-card ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        line-height: 1.9;
+      }
+
+      .act-evidence {
+        padding: 6rem 0;
+        border-top: 1px solid var(--border);
+      }
+
+      .evidence-strip {
+        margin: 2.5rem 0 3rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+      }
+
+      @media (max-width: 760px) {
+        .evidence-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .evidence-stat {
+        border: 1px solid var(--border);
+        background: var(--bg-card);
+        border-radius: 1rem;
+        padding: 1.5rem 1rem;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+
+      .evidence-stat b {
+        display: block;
+        font-size: 2.6rem;
+        color: var(--accent);
+      }
+
+      .evidence-stat span {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-faint);
+      }
+
+      .act-close {
+        padding: 6rem 0;
+        border-top: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .act-close .lede {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .code-card {
+        margin: 2.5rem auto 0;
+        max-width: 720px;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        background: #0b0f14;
+        color: #e6edf3;
+        overflow: hidden;
+        text-align: left;
+        box-shadow: 0 20px 50px -20px rgba(2, 6, 23, 0.5);
+      }
+
+      .code-card-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        font-size: 0.72rem;
+        color: #8b949e;
+      }
+
+      .code-card-bar button {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: transparent;
+        color: #e6edf3;
+        border-radius: 0.5rem;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .code-card pre {
+        margin: 0;
+        padding: 1.2rem 1.4rem;
+        font-size: 0.8rem;
+        line-height: 1.7;
+        overflow-x: auto;
+      }
+
+      .final-cta {
+        margin-top: 3rem;
+      }
     </style>
   </head>
   <body>
@@ -894,7 +1083,8 @@ const capabilityNumbers = [
           <div class="problem-copy">
             <h2 class="act-title">
               ¿Y si la IA ejecuta<br /><span class="grad"
-                >algo destructivo?</span>
+                >algo destructivo?</span
+              >
             </h2>
             <p class="lede">
               Un LLM puede proponer cualquier SQL. Este servidor no intenta
@@ -951,16 +1141,155 @@ const capabilityNumbers = [
           <div class="solution-numbers">
             <div class="solution-stat">
               <b class="mono count" data-count="70">70</b><span
-                >herramientas MCP</span>
+                >herramientas MCP</span
+              >
             </div>
             <div class="solution-stat">
               <b class="mono count" data-count="0">0</b><span
-                >puertos web (solo STDIO)</span>
+                >puertos web (solo STDIO)</span
+              >
             </div>
             <div class="solution-stat">
               <b class="mono count" data-count="1">1</b><span
-                >sola barrera: Oracle</span>
+                >sola barrera: Oracle</span
+              >
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="act act-tools" id="herramientas">
+        <div class="container">
+          <div class="tools-intro">
+            <h2 class="act-title">
+              70 herramientas,<br /><span class="grad">ocho frentes</span>
+            </h2>
+            <div class="capability-strip">
+              {
+                capabilityNumbers.map((c) => (
+                  <div class="capability">
+                    <b class="mono">
+                      {c.value}
+                      {c.suffix}
+                    </b>
+                    <span>{c.label}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="tool-deck">
+            {
+              toolCategories.map((cat) => (
+                <article class="tool-card">
+                  <h3>{cat.name}</h3>
+                  <ul class="mono">
+                    {cat.tools.map((t) => (
+                      <li>{t}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="act act-evidence" id="evidencia">
+        <div class="container">
+          <h2 class="act-title">
+            La evidencia: <span class="grad">Query 01, tres entornos</span>
+          </h2>
+          <p class="lede">
+            El servidor en acción: cada informe compara la consulta original
+            contra la optimizada — plan de ejecución, costos y verificación fila
+            por fila.
+          </p>
+
+          <div class="evidence-strip">
+            <div class="evidence-stat">
+              <b class="mono"
+                ><span class="count-evidence" data-count="87">87</span>×</b
+              >
+              <span>reducción máxima de costo de joins</span>
+            </div>
+            <div class="evidence-stat">
+              <b class="mono count-evidence" data-count="284">284</b>
+              <span>registros verificados 1 a 1</span>
+            </div>
+            <div class="evidence-stat">
+              <b class="mono count-evidence" data-count="0">0</b>
+              <span>diferencias vs original</span>
+            </div>
+          </div>
+
+          <div class="cards">
+            {
+              reports.map((r) => (
+                <article class="card">
+                  <div class="card-head">
+                    <div class="top">
+                      <span class="chip mono">{r.chip}</span>
+                      <span class="chip">{r.badge}</span>
+                    </div>
+                    <h3>{r.title}</h3>
+                    <div class="hero-number mono">
+                      <b>{r.highlight.value}</b>
+                      <span>{r.highlight.label}</span>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p>{r.description}</p>
+                    <dl class="metrics">
+                      {r.metrics.map((m) => (
+                        <div>
+                          <dt>{m.label}</dt>
+                          <dd class="mono">
+                            {m.before && (
+                              <span class="before">{m.before} →</span>
+                            )}
+                            <span class="after">{m.after}</span>
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                    <a class="card-cta" href={r.href}>
+                      Ver informe completo →
+                    </a>
+                  </div>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="act act-close" id="quickstart">
+        <div class="container">
+          <h2 class="act-title">
+            Conéctalo en <span class="grad">cuatro pasos</span>
+          </h2>
+          <p class="lede">
+            Usuario least-privilege, variables de entorno, build con Maven y
+            este bloque en tu cliente MCP:
+          </p>
+
+          <div class="code-card">
+            <div class="code-card-bar">
+              <span class="mono"
+                >claude_desktop_config.json · .cursor/mcp.json</span
+              >
+              <button id="copy-config" type="button">Copiar</button>
+            </div>
+            <pre class="mono" id="mcp-config">{mcpConfig}</pre>
+          </div>
+
+          <div class="final-cta">
+            <a
+              class="btn-primary"
+              href="https://github.com/zademy/mcp-oracle-database"
+              rel="noopener">Ver el código fuente ↗</a
+            >
           </div>
         </div>
       </section>
@@ -995,6 +1324,21 @@ const capabilityNumbers = [
       crossorigin="anonymous"></script>
     <script is:inline>
       (function () {
+        // Botón copiar — funciona aunque GSAP no cargue
+        const copyBtn = document.getElementById("copy-config");
+        if (copyBtn) {
+          copyBtn.addEventListener("click", async () => {
+            const text = document.getElementById("mcp-config").textContent;
+            try {
+              await navigator.clipboard.writeText(text);
+              copyBtn.textContent = "¡Copiado!";
+            } catch {
+              copyBtn.textContent = "Selecciona y copia manual";
+            }
+            setTimeout(() => (copyBtn.textContent = "Copiar"), 2000);
+          });
+        }
+
         if (!window.gsap || !window.ScrollTrigger) return;
         gsap.registerPlugin(ScrollTrigger);
 
@@ -1053,6 +1397,62 @@ const capabilityNumbers = [
                 el.textContent = Math.round(obj.v).toLocaleString("es-MX");
               },
             });
+          });
+
+          // Acto 4: pinned — las tarjetas del deck entran por tandas con el scroll
+          const cards = gsap.utils.toArray(".tool-card");
+          gsap.set(cards, { autoAlpha: 0, y: 30 });
+          const toolsTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".act-tools",
+              start: "top top",
+              end: "+=160%",
+              pin: true,
+              scrub: 0.5,
+            },
+          });
+          toolsTl.to(cards, {
+            autoAlpha: 1,
+            y: 0,
+            stagger: 0.35,
+            ease: "none",
+          });
+
+          // Acto 5: tarjetas entran escalonadas + contadores de evidencia
+          gsap.from(".act-evidence .card", {
+            autoAlpha: 0,
+            y: 40,
+            duration: 0.7,
+            stagger: 0.18,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: ".act-evidence .cards",
+              start: "top 80%",
+            },
+          });
+
+          document.querySelectorAll(".count-evidence").forEach((el) => {
+            const target = parseInt(el.dataset.count, 10);
+            const obj = { v: 0 };
+            gsap.to(obj, {
+              v: target,
+              duration: 1.6,
+              ease: "power1.out",
+              scrollTrigger: { trigger: el, start: "top 88%" },
+              onUpdate: () => {
+                el.textContent = Math.round(obj.v).toLocaleString("es-MX");
+              },
+            });
+          });
+
+          // Acto 6: el quickstart entra al acercarse al cierre
+          gsap.from(".code-card", {
+            autoAlpha: 0,
+            y: 40,
+            scale: 0.97,
+            duration: 0.8,
+            ease: "power2.out",
+            scrollTrigger: { trigger: ".act-close", start: "top 75%" },
           });
         });
       })();
