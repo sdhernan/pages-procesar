@@ -137,10 +137,10 @@ const capabilityNumbers = [
       })();
     </script>
     <style>
-      /* Variables de tema y utilidades base — copiar VERBATIM los bloques
-         :root, [data-theme="dark"], @media (prefers-color-scheme: dark),
-         *, body, .mono, .container, header.site, .brand, #theme-toggle,
-         footer.site del index.astro actual (líneas 84-208 y 637-653). */
+      /* CONSERVAR VERBATIM todo el bloque <style> del index.astro actual
+         (variables de tema, utilidades, hero, terminal, stats-strip,
+         cards, metrics, footer): las tareas posteriores reusan esos
+         estilos. No borrar nada del CSS existente en esta tarea. */
     </style>
   </head>
   <body>
@@ -260,11 +260,21 @@ const capabilityNumbers = [
 </html>
 ```
 
-Nota: los estilos `.act-hero` reusan las clases existentes del index actual:
-`.hero`, `.hero::before/::after`, `.hero-grid`, `.eyebrow`, `h1`, `.grad`,
-`.lede`, `.hero-actions`, `.btn-primary`, `.btn-ghost`, `.terminal` y sus
-variantes `t-*`, `.stats-strip` — copiarlos verbatim (líneas 210-482 del
-archivo actual) renombrando el selector `.hero` a `.act-hero` donde aplique.
+Nota: los estilos del hero (`.hero`, `.hero::before/::after`, `.hero-grid`,
+`.eyebrow`, `h1`, `.grad`, `.lede`, `.hero-actions`, `.btn-primary`,
+`.btn-ghost`, `.terminal` y variantes `t-*`, `.stats-strip`) ya existen en el
+bloque `<style>` conservado: añadir reglas de alias que apunten `.act-hero`
+a los mismos estilos, p. ej.:
+
+```css
+.act-hero {
+  position: relative;
+  padding: 4.5rem 0 3rem;
+}
+```
+
+(replicando el bloque `.hero` completo con el selector `.act-hero`, o
+renombrando `.hero` a `.act-hero` dentro del CSS conservado; elegir renombrar).
 
 - [ ] **Step 2: Verificar build**
 
@@ -834,11 +844,12 @@ git commit -m "feat(index): acto 4 scrub con catalogo de herramientas"
 </section>
 ```
 
-- [ ] **Step 2: Añadir los estilos**
+- [ ] **Step 2: Verificar estilos existentes y añadir los nuevos**
 
-Copiar VERBATIM del index actual los bloques `.cards`, `article.card`,
-`.card-head` (+ `.top`, `.chip`, `h3`, `.hero-number`), `.card-body`,
-`dl.metrics`, `.card-cta` (líneas 497-635). Añadir:
+Los estilos `.cards`, `article.card`, `.card-head` (+ `.top`, `.chip`, `h3`,
+`.hero-number`), `.card-body`, `dl.metrics`, `.card-cta` YA existen en el
+bloque `<style>` (conservados desde Task 1): verificar que estén presentes,
+no duplicarlos. Añadir solo:
 
 ```css
 .act-evidence {
