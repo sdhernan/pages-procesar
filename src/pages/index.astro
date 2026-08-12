@@ -740,7 +740,7 @@ const mcpConfig = `{
       }
 
       .problem-terminal pre {
-        min-height: 7.5rem;
+        min-height: 15rem;
       }
 
       .terminal .t-err {
@@ -1095,10 +1095,16 @@ const mcpConfig = `{
           <div class="terminal problem-terminal">
             <div class="terminal-bar">
               <span></span><span></span><span></span>
-              <em>intento de DDL · sesión real</em>
+              <em>sesión real · lecturas sí, destrucción no</em>
             </div>
-            <pre><span class="problem-step step-ai">› <span class="t-tool">execute_dml</span>("DROP TABLE HR.EMPLOYEES")</span>
-<span class="problem-step step-oracle">  <span class="t-err">✘ ORA-01031: insufficient privileges</span></span>
+            <pre><span class="problem-step">› <span class="t-tool">list_tables</span>(schema="HR")</span>
+<span class="problem-step">  <span class="t-num">14</span> tablas · introspección OK</span>
+<span class="problem-step">› <span class="t-tool">execute_dml</span>("DROP TABLE HR.EMPLOYEES")</span>
+<span class="problem-step">  <span class="t-err">✘ ORA-01031: insufficient privileges</span></span>
+<span class="problem-step">› <span class="t-tool">execute_dml</span>("GRANT DBA TO mcp_user")</span>
+<span class="problem-step">  <span class="t-err">✘ ORA-01031: insufficient privileges</span></span>
+<span class="problem-step">› <span class="t-tool">run_query</span>("SELECT COUNT(*) FROM HR.EMPLOYEES")</span>
+<span class="problem-step">  <span class="t-ok">✔ 107 filas</span> · solo lectura permitido</span>
 <span class="problem-step step-note">  Oracle es la única barrera — sin filtros en la app.</span></pre>
           </div>
         </div>
@@ -1198,7 +1204,9 @@ const mcpConfig = `{
       <section class="act act-evidence" id="evidencia">
         <div class="container">
           <h2 class="act-title">
-            La evidencia: <span class="grad">una query, tres entornos, cero diferencias</span>
+            La evidencia: <span class="grad"
+              >una query, tres entornos, cero diferencias</span
+            >
           </h2>
           <p class="lede">
             El servidor en acción: cada informe compara la consulta original
@@ -1363,7 +1371,7 @@ const mcpConfig = `{
             scrollTrigger: {
               trigger: ".act-problem",
               start: "top top",
-              end: "+=70%",
+              end: "+=90%",
               pin: true,
               scrub: 0.5,
             },
