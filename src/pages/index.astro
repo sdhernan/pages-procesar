@@ -1052,7 +1052,9 @@ const mcpConfig = `{
                 <span class="dot"></span> Proyecto de innovación · Model Context Protocol
               </span>
               <h1>
-                Inteligencia Artificial con <span class="grad">Oracle Database segura</span>
+                Inteligencia Artificial con <span class="grad"
+                  >Oracle Database segura</span
+                >
               </h1>
               <p class="lede">
                 Un servidor MCP construido con Spring Boot que deja a cualquier
@@ -1355,7 +1357,9 @@ const mcpConfig = `{
         const canvas = document.getElementById("hero-canvas");
         if (canvas) {
           const ctx = canvas.getContext("2d");
-          let W, H, particles = [];
+          let W,
+            H,
+            particles = [];
           const COUNT = 60;
           const DIST = 110;
           const SPEED = 0.3;
@@ -1428,7 +1432,10 @@ const mcpConfig = `{
           resize();
           init();
           update();
-          window.addEventListener("resize", () => { resize(); init(); });
+          window.addEventListener("resize", () => {
+            resize();
+            init();
+          });
         }
 
         // Botón copiar — funciona aunque GSAP no cargue
