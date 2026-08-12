@@ -15,6 +15,7 @@ npm run preview  # sirve el sitio construido
 
 ## Integración continua
 
-El workflow `.github/workflows/ci.yml` se ejecuta en cada pull request a
-`main`: valida los mensajes de commit con commitlint y compila el sitio con
-Astro. Los informes estáticos viven en `public/informes/`.
+El workflow `.github/workflows/ci.yml` compila el sitio en cada pull
+request a `main`; en cada push a `main` publica el sitio en GitHub
+Pages y genera la release con semantic-release. Los informes
+estáticos viven en `public/informes/`.
