@@ -55,6 +55,48 @@ const glance = [
   { value: "0", label: "diferencias vs original" },
   { value: "87×", label: "reducción máxima de costo" },
 ];
+
+const toolCategories = [
+  {
+    name: "Introspección de esquema",
+    tools: ["list_tables", "describe_table", "get_ddl"],
+  },
+  {
+    name: "Diagnóstico de rendimiento",
+    tools: ["list_top_sql", "list_blocked_sessions", "get_wait_events"],
+  },
+  {
+    name: "Advisory de índices",
+    tools: ["suggest_index", "run_sql_tuning_advisor", "list_unused_indexes"],
+  },
+  {
+    name: "Helpers de datos",
+    tools: ["find_duplicates", "validate_fk_integrity", "find_free_id"],
+  },
+  {
+    name: "SQL y DML",
+    tools: ["run_query", "execute_dml_preview", "explain_plan"],
+  },
+  {
+    name: "Grafos de esquema",
+    tools: ["get_fk_graph", "get_dependency_graph"],
+  },
+  {
+    name: "PL/SQL",
+    tools: ["call_procedure", "get_plsql_errors", "describe_plsql"],
+  },
+  {
+    name: "Sistema",
+    tools: ["test_connection", "oracle_mcp_health_report"],
+  },
+];
+
+const capabilityNumbers = [
+  { value: 70, suffix: "", label: "herramientas MCP" },
+  { value: 4, suffix: "", label: "recursos URI" },
+  { value: 6, suffix: "", label: "prompts guiados" },
+  { value: 13, suffix: "", label: "completions" },
+];
 ---
 
 <!doctype html>
@@ -64,12 +106,10 @@ const glance = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Resultados del proyecto de innovación MCP Server para Oracle: optimización de consultas 1 a 1 con evidencia medible."
+      content="mcp-oracle-db: servidor MCP para Oracle Database. Introspección de esquemas, SQL seguro y diagnóstico de rendimiento, con seguridad least-privilege impuesta por Oracle."
     />
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
-    <title>
-      MCP Oracle DB · Optimización de consultas Oracle con evidencia
-    </title>
+    <title>mcp-oracle-db · Oracle para tu IA, con candado</title>
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("theme");
@@ -207,12 +247,12 @@ const glance = [
         border-color: var(--accent);
       }
 
-      .hero {
+      .act-hero {
         position: relative;
         padding: 4.5rem 0 3rem;
       }
 
-      .hero::before {
+      .act-hero::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -230,7 +270,7 @@ const glance = [
         pointer-events: none;
       }
 
-      .hero::after {
+      .act-hero::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -663,7 +703,7 @@ const glance = [
     </header>
 
     <main>
-      <section class="hero">
+      <section class="act act-hero" id="inicio">
         <div class="container">
           <div class="hero-grid">
             <div>
@@ -671,37 +711,35 @@ const glance = [
                 <span class="dot"></span> Proyecto de innovación · Model Context Protocol
               </span>
               <h1>
-                Optimización de consultas Oracle <span class="grad"
-                  >con evidencia medible</span
-                >
+                Oracle para tu IA, <span class="grad">con candado</span>
               </h1>
               <p class="lede">
-                Un MCP Server conectado a Oracle analiza planes de ejecución,
-                propone reescrituras y verifica el resultado fila por fila.
-                Estos informes comparan, 1 a 1, la consulta original contra su
-                versión optimizada.
+                Un servidor MCP construido con Spring Boot que deja a cualquier
+                cliente de IA introspectar esquemas, ejecutar SQL y diagnosticar
+                rendimiento. La seguridad no es un filtro en la app: es el
+                propio Oracle, con un usuario sin privilegios DDL.
               </p>
               <div class="hero-actions">
-                <a class="btn-primary" href="#informes">Ver informes ↓</a>
                 <a
-                  class="btn-ghost"
+                  class="btn-primary"
                   href="https://github.com/zademy/mcp-oracle-database"
                   rel="noopener">Repositorio MCP ↗</a
                 >
+                <a class="btn-ghost" href="#evidencia">Ver la evidencia ↓</a>
               </div>
             </div>
 
-            <div class="terminal" aria-hidden="true">
+            <div class="terminal hero-terminal" aria-hidden="true">
               <div class="terminal-bar">
                 <span></span><span></span><span></span>
-                <em>mcp-oracle-db · sesión de análisis</em>
+                <em>mcp-oracle-db · primera sesión</em>
               </div>
-              <pre><span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · original)
-  <span class="t-dim">costo</span> <span class="t-num">463K</span> · joins <span class="t-num">41,055</span> · paralelismo <span class="t-num">1</span>
-<span class="t-cmd">›</span> <span class="t-tool">explain_plan</span>(query-01 · optimizada)
-  joins <span class="t-num">474</span> · paralelismo <span class="t-num">4</span>  <span class="t-ok">✔ 87× menos joins</span>
-<span class="t-cmd">›</span> <span class="t-tool">run_query</span>(verificación 1 a 1)
-  <span class="t-num">110</span> registros · <span class="t-ok">0 diferencias ✔</span></pre>
+              <pre><span class="t-line">› <span class="t-tool">test_connection</span>()
+  <span class="t-ok">✔ Oracle 19c</span> · usuario mcp_user · esquema MCP_USER</span>
+<span class="t-line">› <span class="t-tool">list_tables</span>(schema="HR")
+  <span class="t-num">14</span> tablas visibles</span>
+<span class="t-line">› <span class="t-tool">describe_table</span>(schema="HR", table="EMPLOYEES")
+  <span class="t-num">11</span> columnas · PK EMP_EMP_ID_PK</span></pre>
             </div>
           </div>
 
@@ -717,62 +755,15 @@ const glance = [
           </div>
         </div>
       </section>
-
-      <div class="container">
-        <h2 class="section-title" id="informes">
-          Informes comparativos · Query 01
-        </h2>
-        <p class="section-sub">
-          Cada informe compara la consulta original contra la optimizada: plan
-          de ejecución, costos y verificación de datos fila por fila.
-        </p>
-
-        <section class="cards">
-          {
-            reports.map((r) => (
-              <article class="card">
-                <div class="card-head">
-                  <div class="top">
-                    <span class="chip mono">{r.chip}</span>
-                    <span class="chip">{r.badge}</span>
-                  </div>
-                  <h3>{r.title}</h3>
-                  <div class="hero-number mono">
-                    <b>{r.highlight.value}</b>
-                    <span>{r.highlight.label}</span>
-                  </div>
-                </div>
-                <div class="card-body">
-                  <p>{r.description}</p>
-                  <dl class="metrics">
-                    {r.metrics.map((m) => (
-                      <div>
-                        <dt>{m.label}</dt>
-                        <dd class="mono">
-                          {m.before && <span class="before">{m.before} →</span>}
-                          <span class="after">{m.after}</span>
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-                  <a class="card-cta" href={r.href}>
-                    Ver informe completo →
-                  </a>
-                </div>
-              </article>
-            ))
-          }
-        </section>
-      </div>
     </main>
 
     <footer class="site">
       <div class="container">
-        Generado con Astro · Informes producidos por el proyecto
+        Generado con Astro ·
         <a href="https://github.com/zademy/mcp-oracle-database" rel="noopener"
           >mcp-oracle-database</a
         >
-        · Ningún filtro de negocio fue eliminado en las optimizaciones.
+        · Licencia MIT © Sadot Hdz. Moreno
       </div>
     </footer>
 
@@ -784,6 +775,35 @@ const glance = [
         document.documentElement.dataset.theme = next;
         localStorage.setItem("theme", next);
       });
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"
+      integrity="sha384-lsAbgfRKMpDitFMvVeLJU0sq3EMnOhnzdWsstB8P0LY="
+      crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"
+      integrity="sha384-MIIZOQ5eO4TNoMSB5wyqmCCIOuEL2kTm6aFJqBqsSz8="
+      crossorigin="anonymous"></script>
+    <script is:inline>
+      (function () {
+        if (!window.gsap || !window.ScrollTrigger) return;
+        gsap.registerPlugin(ScrollTrigger);
+
+        const mm = gsap.matchMedia();
+        mm.add("(prefers-reduced-motion: no-preference)", () => {
+          // Acto 1: las líneas de la terminal aparecen una a una
+          const lines = gsap.utils.toArray(".hero-terminal .t-line");
+          gsap.set(lines, { autoAlpha: 0, y: 8 });
+          gsap.to(lines, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.55,
+            delay: 0.4,
+            ease: "power2.out",
+          });
+        });
+      })();
     </script>
   </body>
 </html>
