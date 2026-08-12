@@ -65,7 +65,7 @@
         <span class="badge">📄 registros <b class="font-mono">110</b></span>
         <span class="badge">🧮 plan <b class="font-mono">1082095650</b></span>
       </div>
-      <!-- Panel hero (como el panel morado de la imagen) -->
+      <!-- Panel principal de la consulta original -->
       <div class="m-4 rounded-lg p-5 text-white bg-gradient-to-br from-[#1f2328] via-[#2d333b] to-[#444c56]">
         <div class="flex items-center gap-2 text-[#adbac7] text-xs font-semibold">
           <span class="w-7 h-7 grid place-items-center rounded-lg bg-white/15">🐢</span>
@@ -91,7 +91,7 @@
         <span class="px-1.5 py-0.5 rounded bg-[#1f2328] dark:bg-[#f0f6fc] text-white dark:text-[#0d1117] font-black text-[10px] tracking-wider">TURBO</span>
         <h2 class="font-bold text-sm">Query Optimizada</h2>
       </div>
-      <!-- Badges métricos (BEST en verde, como la imagen) -->
+      <!-- Badges con las mejores métricas -->
       <div class="px-4 pt-3 flex flex-wrap gap-2">
         <span class="badge-best">🔗 costo joins <b class="font-mono">474</b> BEST</span>
         <span class="badge-best">🧵 paralelismo <b class="font-mono">4</b> BEST</span>
@@ -146,9 +146,9 @@
       </div>
       <div class="mt-2 h-72"><canvas id="costChart"></canvas></div>
       <p class="mt-3 text-xs text-[#59636e] dark:text-[#8b949e]">
-        💡 <b>Cómo leerla:</b> la animación avanza etapa por etapa, igual que la consulta. La línea <span class="text-[#59636e] dark:text-[#8b949e] font-semibold">azul (original)</span> se dispara
-        al llegar a <span class="font-mono">Notif. CUS</span>: ahí revisaba 9,288 filas una por una. La línea
-        <span class="text-[#1f2328] dark:text-[#f0f6fc] font-semibold">verde (optimizada)</span> se mantiene plana porque cruza las listas de una sola pasada.
+        💡 <b>Cómo leerla:</b> la animación avanza etapa por etapa, igual que la consulta. La serie <span class="text-[#59636e] dark:text-[#8b949e] font-semibold">Original</span> se dispara
+        al llegar a <span class="font-mono">Notif. CUS</span>: ahí revisaba 9,288 filas una por una. La serie
+        <span class="text-[#1f2328] dark:text-[#f0f6fc] font-semibold">Optimizada</span> se mantiene plana porque cruza las listas de una sola pasada.
       </p>
     </div>
 
@@ -328,10 +328,10 @@ function themeColors() {
     tooltipBg: dark ? '#161b22' : '#ffffff',
     tooltipFg: dark ? '#e2e8f0' : '#0f172a',
     tooltipBorder: dark ? 'rgba(255,255,255,.15)' : 'rgba(15,23,42,.15)',
-    blue: dark ? '#8b949e' : '#59636e',
-    blueFill: dark ? 'rgba(139,148,158,.18)' : 'rgba(89,99,110,.12)',
-    lime: dark ? '#f0f6fc' : '#1f2328',
-    limeFill: dark ? 'rgba(240,246,252,.14)' : 'rgba(31,35,40,.08)'
+    original: dark ? '#8b949e' : '#59636e',
+    originalFill: dark ? 'rgba(139,148,158,.18)' : 'rgba(89,99,110,.12)',
+    optimized: dark ? '#f0f6fc' : '#1f2328',
+    optimizedFill: dark ? 'rgba(240,246,252,.14)' : 'rgba(31,35,40,.08)'
   };
 }
 
@@ -353,8 +353,8 @@ function buildChart(animate = !REDUCED_MOTION) {
     data: {
       labels: STAGES,
       datasets: [
-        { ...line, label: 'Original',   data: ORIGINAL,  borderColor: c.blue, backgroundColor: c.blueFill, pointBackgroundColor: c.blue },
-        { ...line, label: 'Optimizada', data: OPTIMIZED, borderColor: c.lime, backgroundColor: c.limeFill, pointBackgroundColor: c.lime }
+        { ...line, label: 'Original',   data: ORIGINAL,  borderColor: c.original, backgroundColor: c.originalFill, pointBackgroundColor: c.original },
+        { ...line, label: 'Optimizada', data: OPTIMIZED, borderColor: c.optimized, backgroundColor: c.optimizedFill, pointBackgroundColor: c.optimized }
       ]
     },
     options: {
